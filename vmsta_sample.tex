@@ -9,6 +9,9 @@
 \usepackage{dcolumn}
 
 
+\volume{1}
+\issue{4}
+\pubyear{2018}
 
 
 \newtheorem{thm}{Theorem}
@@ -33,14 +36,15 @@
 
 
 \title{A sample document}
-\author[a]{\inits{F.}\fnm{First-Name1}\snm{Surname-1}\corref{cor1}}\email{first@somewhere.com}
-\cortext[cor1]{Corresponding author.}
+\author[a]{\inits{F.}\fnms{First-Name1}~\snm{Surname-1}\thanksref{cor1}\ead[label=e1]{first@somewhere.com}}
+\thankstext[type=corresp,id=cor1]{Corresponding author.}
 
-\author[b]{\inits{S.}\fnm{First-Name2}\snm{Surname-2}\fnref{f1}}\email{second@somewhere.com}
-\fntext[f1]{Some remarks.}
+\author[b]{\inits{S.}\fnms{First-Name2}~\snm{Surname-2}\thanksref{f1}\ead[label=e2]{second@somewhere.com}}
+\thankstext[id=f1]{Some remarks.}
 
-\address[a]{Address of the First author\\
-usually few lines long}
+\address[a]{\institution{Institution of the First author}, \\
+Street 123, ZIP City, \cny{Country}}
+
 \address[b]{Address of the Second author\\
 usually few lines long}
 
@@ -55,9 +59,15 @@ dulce miseris solamen. Dum esset rex in accubitu suo, nardus mea
 dedit odorem suavitatis. Quoniam con-fortavit seras portarum tuarum,
 benedixit filiis tuis in te.\end{abstract}
 
-\begin{keyword} Sample \sep \LaTeX
-\MSC[2010] 00K00 \sep 00K00
-\end{keyword}
+\begin{keywords}
+\kwd{Sample}
+\kwd{\LaTeX}
+\end{keywords}
+
+\begin{keywords}[MSC2010]%
+\kwd{00K00}
+\kwd{00K01}
+\end{keywords}
 
 \end{frontmatter}
 
@@ -458,16 +468,17 @@ The theorem is proved.
 
 
 
-\section*{Acknowledgments}
+\begin{acknowledgement}[title={Acknowledgments}]
 Omnes hanc ergo sequamur qua cum gratia mereamur vitam aeternam.
 Consequamur. Praestet nobis deus, pater hoc et filius et mater
 praestet nobis.  Pater hoc et filius et mater cuius nomen invocamus
 dulce miseris solamen. Dum esset rex in accubitu suo, nardus mea
 dedit odorem suavitatis. Quoniam con-fortavit seras portarum tuarum,
 benedixit filiis tuis in te.
+\end{acknowledgement}
 
 
-\appendix
+\begin{appendix}
 
 \section{Appendix section}
 
@@ -475,6 +486,8 @@ Nisi custodierit civitatem,
 frustra vigilat qui custodit eam. Cum dederit dilectis suis somnum:
 ecce haereditas filii: merces, fructus ventris. Sicut sagittae in
 many potentis: Ita filii excussorum.
+
+\end{appendix}
 
 
 \bibliographystyle{bib/vmsta-mathphys}

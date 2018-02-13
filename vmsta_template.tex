@@ -9,7 +9,9 @@
 %% VTeX 2014
 \documentclass[numbers,compress]{vmsta}
 
-\begin{document}
+\volume{0}
+\issue{0}
+\pubyear{2018}
 
 %startlocaldefs
 % local macros
@@ -23,14 +25,16 @@
 %% \theoremstyle{remark}% Remark
 
 %endlocaldefs
+
+\begin{document}
+
 \begin{frontmatter}
 
 \title{}
 
-\author[a]{\inits{}\fnm{}\snm{}}\email{}
-\address[a]{}
-
-%\author[]{  \fnref{f1}\corref{c1}}\email{}
+\author[]{\inits{}\fnms{}~\snm{}\thanksref{}\ead[label=]{}}
+\thankstext[type=corresp,id=]{}
+\address[]{\institution{}, ..., \cny{}}
 
 
 
@@ -38,11 +42,16 @@
 Abstract 
 \end{abstract}
 
-\begin{keyword}
-% Keywords separated by \sep 
-% Key1\sep Key2
-%\MSC[2010] 00K00 \sep 00K00
-\end{keyword}
+\begin{keywords}
+\kwd{}
+\kwd{}
+\end{keywords}
+
+\begin{keywords}[MSC2010]%
+\kwd{}
+\kwd{}
+\end{keywords}
+
 \end{frontmatter}
 
 
@@ -78,14 +87,20 @@ Abstract
 
 %%  Acknowledgements %%
 %%%%%%%%%%%%%%%%%%%%%%
-%\section*{Acknowledgments}
+%\begin{acknowledgement}%[title={Acknowledgments}]
+%\end{acknowledgement}
  
 
 %% Appendices %%
 %%%%%%%%%%%%%%%%%%%%%%
-%\appendix
+%\begin{appendix}
 %\section{Appendix section}
+%\end{appendix}
 
+%\begin{funding}
+%\gsponsor[id=,sponsor-id=]{}
+%\gnumber[refid=]{}
+%\end{funding}
 
 %% Bibliography %%
 %%%%%%%%%%%%%%%%%%%%%%
