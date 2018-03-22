@@ -17,7 +17,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{vmsta}
-    [2018/02/19 v1.4.10 VMSTA Journal class]
+    [2018/03/22 v1.4.12 VMSTA Journal class]
 \def\fmt@name{vmsta}
 
 \RequirePackage{etoolbox}
@@ -37,7 +37,7 @@
 
 \def\@journal{Modern Stochastics: Theory and Applications}
 \def\@journalabbrev{Modern Stoch. Theory Appl.}
-\def\@journal@url{http://www.i-journals.org/vmsta}
+\def\@journal@url{http://www.vmsta.org}
 \def\@JOURNAL{MODERN STOCHASTICS: THEORY AND APPLICATIONS}
 \def\@jid{vmsta}
 \def\@JID{VMSTA}
@@ -81,7 +81,7 @@
     \noindent
     \raise4mm\hbox to \textwidth{%
       \footnotesize
-      \href{\@journal@url}{www.i-journals.org/vmsta}%
+      \href{\@journal@url}{www.vmsta.org}%
       \hfill
       \href{\@vtex@url}{\includevtexlogo}%
       }%
@@ -221,7 +221,7 @@
         \def\keywords@prefix{\it PACS:\space}%
       \else
         \ifx\@tempa\JEL@name
-          \def\keywords@prefix{\it JEL:\space}%
+          \def\keywords@prefix{\textbf{JEL~classification}\enskip\enskip}%
         \else
           \ifx\@tempa\MSC@MMX@name
             \def\keywords@prefix{\textbf{2010~MSC}\enskip\enskip}%
@@ -519,6 +519,15 @@
   }{%
     \do@pdfmeta@authors
     \maketitle
+    \check@articletype@pretitle@status
+  }
+\def\check@articletype@pretitle@status{%
+  \ifx\@articletype\@empty
+    {\vtxClassError{\fmt@name}{Command \string\articletype{}\space is missing or is empty!}\@ehc}
+  \fi
+  \ifx\@pretitle\@empty
+    {\vtxClassError{\fmt@name}{Command \string\pretitle{}\space is missing or is empty!}\@ehc}
+  \fi
   }
 
 \def\init@standard@footnote{%
@@ -676,6 +685,7 @@
 %% <<< Metadata <<<
 
 %% >>> Frontmatter >>>
+\def\@pretitle{}
 \def\pretitle#1{\gdef\@pretitle{#1}}
 \newenvironment{aug}
   {}
