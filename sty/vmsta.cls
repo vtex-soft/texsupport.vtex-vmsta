@@ -17,7 +17,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{vmsta}
-    [2018/03/22 v1.4.12 VMSTA Journal class]
+    [2018/04/04 v1.4.13 VMSTA Journal class]
 \def\fmt@name{vmsta}
 
 \RequirePackage{etoolbox}
@@ -1214,15 +1214,15 @@
 %% blocked use of printead.sty in author environment
 \providecommand\ead[2][]{{%
 %% few necessary printead.sty definitions
-  \define@key{ead}{label}{\def\ead@id{#1}}
-  \define@key{ead}{email}[true]{\def\ead@type{email}}
+  \define@key{ead}{label}{\def\ead@id{#1}}%
+  \define@key{ead}{email}[true]{\def\ead@type{email}}%
   \def\@setead##1##2##3{%
     \bgroup
       \csname @setead@hook\endcsname
       \expandafter\xdef\csname ead@##1@##2\endcsname{##3}%
     \egroup
     }%
-  \def\ead@hrefprefix@email{mailto:}
+  \def\ead@hrefprefix@email{mailto:}%
   %
   \csname before@ead@hook\endcsname
   \setkeys{ead}{label={},email,#1}%
