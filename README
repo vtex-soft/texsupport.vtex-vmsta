@@ -5,7 +5,7 @@ https://www.vmsta.org/journal/VMSTA
 Distributed files include:
 
  README             -- this file
- vmstadoc.pdf       -- author's instructions
+ doc/vmstadoc.pdf   -- author's instructions
  vmsta_sample.tex   -- A sample article
  vmsta_sample.pdf   -- A sample article
  vmsta_template.tex -- A template file
