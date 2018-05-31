@@ -5,26 +5,26 @@ https://www.vmsta.org/journal/VMSTA
 
 Distributed files include:
 
-- `doc/vmstadoc.pdf`
-> author's instructions
+> `doc/vmstadoc.pdf`
+>> author's instructions
 
-- `vmsta_sample.tex`
-> a sample article
+> `vmsta_sample.tex`
+>> a sample article
 
-- `vmsta_sample.pdf`
-> a sample article
+> `vmsta_sample.pdf`
+>> a sample article
 
-- `vmsta_template.tex`
-> a template file
+> `vmsta_template.tex`
+>> a template file
 
-- `sty/vmsta.cls`
-> journal class file
+> `sty/vmsta.cls`
+>> journal class file
 
-- `bib/vmsta-mathphys.bst`
-> Bibtex style
+> `bib/vmsta-mathphys.bst`
+>> Bibtex style
 
-- `bib/biblio.bib`
-> Bibtex DB sample
+> `bib/biblio.bib`
+>> Bibtex DB sample
 
 Compile:
 > `latex paper`  or  `pdflatex paper`
