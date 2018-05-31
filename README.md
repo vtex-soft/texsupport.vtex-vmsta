@@ -1,6 +1,6 @@
 VMSTA journal document class.
  
-[https://www.vmsta.org/journal/VMSTA]
+[https://www.vmsta.org/journal/VMSTA](https://www.vmsta.org/journal/VMSTA)
 
 Distributed files include:
 
@@ -14,14 +14,14 @@ Distributed files include:
 
 Compile:
 
- `latex paper`
+    `latex paper`
 
 or
 
- `pdflatex paper`
+    `pdflatex paper`
 	
 Produce bbl:
 
- `bibtex paper`
+    `bibtex paper`
 
 VTeX UAB, 2014/10/02
