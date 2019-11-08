@@ -1,18 +1,16 @@
 \RequirePackage{etoolbox}
 \csdef{input@path}{%
  {sty/},% cls file
- {img/},% images 
+ {img/},% images
  {bib/}%  bibdata,bibstyle
 }
 
 \documentclass[numbers,compress]{vmsta}
-\usepackage{dcolumn}
 
-
-\volume{1}
-\issue{4}
-\pubyear{2018}
-
+\volume{0}
+\issue{0}
+\pubyear{2020}
+\articletype{research-article}
 
 \newtheorem{thm}{Theorem}
 \newtheorem{remark}{Remark}
@@ -28,15 +26,13 @@
 \def\FL#1{\left\lfloor #1 \right\rfloor}
 \def\FR#1#2{{\frac{#1}{#2}}}
 
-\newcolumntype{d}[1]{D{.}{.}{#1}}
-
-
 \begin{document}
 \begin{frontmatter}
 
+\pretitle{Research Article}
 
 \title{A sample document}
-\author[a]{\inits{F.}\fnms{First-Name1}~\snm{Surname-1}\thanksref{cor1}\ead[label=e1]{first@somewhere.com}}
+\author[a]{\inits{F.}\fnms{First-Name1}~\snm{Surname-1}\thanksref{cor1}\ead[label=e1]{first@somewhere.com}\orcid{0000-0000-0000-0000}}
 \thankstext[type=corresp,id=cor1]{Corresponding author.}
 
 \author[b]{\inits{S.}\fnms{First-Name2}~\snm{Surname-2}\thanksref{f1}\ead[label=e2]{second@somewhere.com}}
@@ -48,8 +44,9 @@ Street 123, ZIP City, \cny{Country}}
 \address[b]{Address of the Second author\\
 usually few lines long}
 
-\markboth{F. Author, S. Author}{A sample document}
+\dedicated{Dedicated to}
 
+\markboth{F. Author, S. Author}{A sample document}
 
 \begin{abstract}
 Omnes hanc ergo sequamur qua cum gratia mereamur vitam aeternam.
@@ -57,7 +54,8 @@ Consequamur. Praestet nobis deus, pater hoc et filius et mater
 praestet nobis.  Pater hoc et filius et mater cuius nomen invocamus
 dulce miseris solamen. Dum esset rex in accubitu suo, nardus mea
 dedit odorem suavitatis. Quoniam con-fortavit seras portarum tuarum,
-benedixit filiis tuis in te.\end{abstract}
+benedixit filiis tuis in te.
+\end{abstract}
 
 \begin{keywords}
 \kwd{Sample}
@@ -74,7 +72,8 @@ benedixit filiis tuis in te.\end{abstract}
 \section{Short head one}
 
 
-Isi aedificaverit domum \citep{BLG09,BlanLedShi10}, in vanum \cite*{XiuliChao1999} laboraverunt qui aedificant eam.
+Isi aedificaverit domum \citep{BLG09,BlanLedShi10}, in vanum
+\cite*{XiuliChao1999} laboraverunt qui aedificant eam.
 Nisi custo-dierit civitatem, frustra vigilat qui custodit eam. Vanum
 est vobis ante lucem surgere: surgite postquam sederitis, qui
 manducatis panem doloris. Cum dederit dilectis suis somnum: ecce
@@ -114,21 +113,24 @@ semper tutum est medium inter homines et deum, pro culpis remedium.
 \gamma^\mu  & =
  \left(
 \begin{array}{cc}
-0 & \sigma^\mu_+ \\
+0            & \sigma^\mu_+ \\
 \sigma^\mu_- & 0
-\end{array}     \right) ,\qquad
- \gamma^5= \left(
+\end{array}
+\right),
+\qquad
+\gamma^5= \left(
 \begin{array}{cc}
--1 &   0\\
-0 &   1
-\end{array}     \right)  , \nonumber \\
+-1 & 0 \\
+0  & 1
+\end{array}
+\right),\nonumber \\
 \sigma^\mu_{\pm}  & =    ({\bf 1} ,\pm \sigma) , \nonumber
 \end{align}
 giving
 \begin{equation}
 \hat a= \left(
 \begin{array}{cc}
-0 & (\hat a)_+\\
+0          & (\hat a)_+ \\
 (\hat a)_- & 0
 \end{array}\right),\quad (\hat a)_\pm=a_\mu\sigma^\mu_\pm ,
 \end{equation}
@@ -144,27 +146,22 @@ and
 
 Long equation:
 \begin{align}
-\SM u{C^+}\FL{\FR{w'(u)}m}&\le \FL{\SM u{C^+} \FR{w'(u)}m}\nonumber\\ &\le
-\FL{\FR{r(v)+\SM u{C^+} w(u)}m} = \FL{\FR{w(v)-\SM u{C^-} w(u)}m}\nonumber\\
-&\le \FL{\FR{w(v)}m}-\SM u{C^-}\FL{\FR{w(u)}m}
-= s(v)+\SM u{C^+}\FL{\FR{w(u)}m}
+\SM u{C^+}\FL{\FR{w'(u)}m} & \le \FL{\SM u{C^+} \FR{w'(u)}m}\nonumber\\
+                           & \le \FL{\FR{r(v)+\SM u{C^+} w(u)}m} = \FL{\FR{w(v)-\SM u{C^-} w(u)}m}\nonumber \\
+                           & \le \FL{\FR{w(v)}m}-\SM u{C^-}\FL{\FR{w(u)}m} = s(v)+\SM u{C^+}\FL{\FR{w(u)}m}
 \end{align}
 and
 \begin{align}
-\SM u{C^-}\FL{\FR{w(u)}m}&\le \FL{\SM u{C^-} \FR{w(u)}m}\nonumber\\ & \le
-\FL{\FR{r'(v)+\SM u{C^-} w'(u)}m} = \FL{\FR{w'(v)-\SM u{C^+} w'(u)}m}\nonumber\\
-&\le \FL{\FR{w'(v)}m}-\SM u{C^+}\FL{\FR{w'(u)}m}
-= s'(v)+\SM u{C^-}\FL{\FR{w'(u)}m}.
+\SM u{C^-}\FL{\FR{w(u)}m} & \le \FL{\SM u{C^-} \FR{w(u)}m}\nonumber\\
+                          & \le \FL{\FR{r'(v)+\SM u{C^-} w'(u)}m} = \FL{\FR{w'(v)-\SM u{C^+} w'(u)}m}\nonumber \\
+                          & \le \FL{\FR{w'(v)}m}-\SM u{C^+}\FL{\FR{w'(u)}m} = s'(v)+\SM u{C^-}\FL{\FR{w'(u)}m}.
 \end{align}
 This time we have
 \begin{align}
-f(S)-f(T) =    {}  &  D_k^T\bigl(1+C_{\geq k+1}^T\bigr)(1 + C) + C_k^T\bigl(1+D_{\geq k+1}^T\bigr)(1 + D) \nonumber\\
-        {}   &  - C_k^T\bigl(1+C_{\geq k+1}^T\bigr)(1 + C) - D_k^T\bigl(1+D_{\geq k+1}^T\bigr)(1 + D)   \nonumber\\
-=     {} &   \bigl(D_k^T-C_k^T\bigr)\bigl[(1+C_{\geq k+1})(1+C)-\bigl(1+D_{\geq
-k+1}^T\bigr)(1+D)\bigr]>0.
+f(S)-f(T) = {} & D_k^T\bigl(1+C_{\geq k+1}^T\bigr)(1 + C) + C_k^T\bigl(1+D_{\geq k+1}^T\bigr)(1 + D) \nonumber   \\
+{}             & - C_k^T\bigl(1+C_{\geq k+1}^T\bigr)(1 + C) - D_k^T\bigl(1+D_{\geq k+1}^T\bigr)(1 + D) \nonumber \\
+= {}           & \bigl(D_k^T-C_k^T\bigr)\bigl[(1+C_{\geq k+1})(1+C)-\bigl(1+D_{\geq k+1}^T\bigr)(1+D)\bigr]>0.
 \end{align}
-
-
 
 Omnes hanc ergo sequamur qua cum gratia mereamur vitam aeternam.
 Consequamur. Praestet nobis deus, pater hoc et filius et mater
@@ -191,8 +188,8 @@ inter homines et deum, pro culpis remedium.
 
 
 \begin{table}
-\caption{Table caption}\label{tbl-2}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}cD{.}{.}{6.1}D{.}{.}{2.1}D{.}{.}{2.1}D{.}{.}{0}D{.}{.}{2.1}D{.}{.}{1.3}D{.}{.}{1.3}D{.}{.}{1.3}@{}}
+\caption{Table caption}\label{tbl-2} %% no full stop at the end of caption
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}crrrrrrrr@{}}
 \hline
 Star & Height & \multicolumn{1}{c}{$d_{x}$} &
 \multicolumn{1}{c}{$d_{y}$} &
@@ -216,7 +213,6 @@ Star & Height & \multicolumn{1}{c}{$d_{x}$} &
 \subsection{Average head two}
 
 \subsubsection{Followed by a three-head}
-
 
 A Short Head Three leads into paragraph, ui posuit fines tuos pacem,
 et adipe frumenti satiat te.\footnote{Qui emittit eloquium suum terrae;
@@ -253,15 +249,8 @@ liquefaciet ea; flabit spiritus eius, et fluent aquae.
 \caption{%
 Nisi custodierit civitatem, frustra vigilat qui custodit eam. Vanum
 est vobis ante lucem surgere: surgite postquam sederitis, qui
-manducatis panem doloris}\label{f1} %% no full stop at the end
+manducatis panem doloris}\label{f1} %% no full stop at the end of caption
 \end{figure}
-
-
-
-
-
-
-
 
 
 \section{Environments}
@@ -297,7 +286,7 @@ postquam sederitis, qui manducatis panem doloris.
 
 \begin{figure}[t]
 \includegraphics{dice}% dice(.eps,.pdf)
-\caption{Nisi custodierit civitatem}\label{f2} %% no full stop at the end
+\caption{Nisi custodierit civitatem}\label{f2} %% no full stop at the end of caption
 \end{figure}
 
 Figure \ref{f2} sicut sagittae in many potentis: ita filii excussorum. Beatus vir qui
@@ -306,8 +295,6 @@ suis in porta.  Sicut erat in principio et nunc et semper, et in saecula
 saeculorum. Audi caelum, verba mea, plena desiderio et perfusa gaudio.
 Dic, quaeso, mihi: quae est ista, quae consurgens ut aurora rutilat ut
 beneficam.
-
-
 
 
 \subsection{Itemize}
@@ -341,24 +328,22 @@ consurgens ut aurora rutilat ut beneficam (Table~\ref{t1}).
 \caption{One-column table}\label{t1}
 \begin{tabular}{@{}ll}
 \hline
-Wavelength range & 0.35--1.7~\textmu m \\
-Telescope aperture & 2~m \\
-Effective focal length & 21.66~m \\
-Field of view & 1.5~deg  \\
-& 0.7 square degree \\
-Detectors: & CCD \\
-& (10~\textmu m pixel) \\
-& NIR HgCdTe arrays, \\
-& (18~\textmu m pixel) \\
-Survey field size & 15 square deg \\
-FVR & 4 days \\
-FOT survey & 60\% \\
-FOT spectroscopy & 40\% \\
+Wavelength range       & 0.35--1.7~\textmu m  \\
+Telescope aperture     & 2~m                  \\
+Effective focal length & 21.66~m              \\
+Field of view          & 1.5~deg              \\
+                       & 0.7 square degree    \\
+Detectors:             & CCD                  \\
+                       & (10~\textmu m pixel) \\
+                       & NIR HgCdTe arrays,   \\
+                       & (18~\textmu m pixel) \\
+Survey field size      & 15 square deg        \\
+FVR                    & 4 days               \\
+FOT survey             & 60\%                 \\
+FOT spectroscopy       & 40\%                 \\
 \hline
 \end{tabular}
 \end{table}
-
-
 
 
 \subsection{Quote, description, etc.}
@@ -369,7 +354,6 @@ suis in porta.  Sicut erat in principio et nunc et semper, et in saecula
 saeculorum. Audi caelum, verba mea, plena desiderio et perfusa gaudio.
 Dic, quaeso, mihi: quae est ista, quae consurgens ut aurora rutilat ut
 beneficam.
-
 
 \begin{quotation}
 Extract sample (quotation). Vanum est vobis ante lucem surgere: surgite postquam
@@ -431,7 +415,6 @@ ecce haereditas filii: merces, fructus ventris. Sicut sagittae in
 many potentis: Ita filii excussorum.
 \end{thm}
 
-
 \begin{proof}
 The theorem is proved.
 \end{proof}
@@ -439,7 +422,6 @@ The theorem is proved.
 Dic, quaeso, mihi: quae est ista, quae consurgens ut aurora rutilat
 ut benefi-cam.  Dic nam esta pulchra ut luna electa, ut sol replet
 laetitia terras, caelos.
-
 
 \begin{defin}[\cite{powergrid1}]\label{clas}
 Vanum est vobis ante lucem surgere: surgite postquam
@@ -458,24 +440,12 @@ The lemma is proved.
 \end{proof}
 
 \begin{thm}[Quantitative theorem]
-Quae
-semper tutum est medium inter homines et deum, pro culpis remedium.
+Quae semper tutum est medium inter homines et deum, pro culpis remedium.
 \end{thm}
 
 \begin{proof}
 The theorem is proved.
 \end{proof}
-
-
-
-\begin{acknowledgement}[title={Acknowledgments}]
-Omnes hanc ergo sequamur qua cum gratia mereamur vitam aeternam.
-Consequamur. Praestet nobis deus, pater hoc et filius et mater
-praestet nobis.  Pater hoc et filius et mater cuius nomen invocamus
-dulce miseris solamen. Dum esset rex in accubitu suo, nardus mea
-dedit odorem suavitatis. Quoniam con-fortavit seras portarum tuarum,
-benedixit filiis tuis in te.
-\end{acknowledgement}
 
 
 \begin{appendix}
@@ -489,6 +459,20 @@ many potentis: Ita filii excussorum.
 
 \end{appendix}
 
+\begin{acknowledgement}[title={Acknowledgments}]
+Omnes hanc ergo sequamur qua cum gratia mereamur vitam aeternam.
+Consequamur. Praestet nobis deus, pater hoc et filius et mater
+praestet nobis.  Pater hoc et filius et mater cuius nomen invocamus
+dulce miseris solamen. Dum esset rex in accubitu suo, nardus mea
+dedit odorem suavitatis. Quoniam con-fortavit seras portarum tuarum,
+benedixit filiis tuis in te.
+\end{acknowledgement}
+
+\begin{funding}
+Dic, quaeso, mihi: quae est ista, quae consurgens ut aurora rutilat
+ut benefi-cam.  Dic nam esta pulchra ut luna electa, ut sol replet
+laetitia terras, caelos.
+\end{funding}
 
 \bibliographystyle{bib/vmsta-mathphys}
 \bibliography{bib/biblio}

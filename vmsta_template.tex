@@ -1,7 +1,7 @@
 \RequirePackage{etoolbox}
 \csdef{input@path}{%
  {sty/},% cls file
- {img/},% images 
+ {img/},% images
  {bib/}%  bibdata,bibstyle
 }
 %%
@@ -11,14 +11,15 @@
 
 \volume{0}
 \issue{0}
-\pubyear{2018}
+\pubyear{2020}
+\articletype{research-article}
 
 %startlocaldefs
+
 % local macros
 %\newtheorem{thm}{Theorem}
 %\theoremstyle{definition}
 %\newtheorem{defin}{Definition}
-
 
 %% \theoremstyle{plain}% Theorems
 %% \theoremstyle{definition} %Proclaim
@@ -30,16 +31,20 @@
 
 \begin{frontmatter}
 
+\pretitle{Research Article}
+
 \title{}
 
-\author[]{\inits{}\fnms{}~\snm{}\thanksref{}\ead[label=]{}}
+\author[]{\inits{}\fnms{}~\snm{}\thanksref{}\ead[label=]{}\orcid{}}
 \thankstext[type=corresp,id=]{}
+%\thankstext[id=]{}
 \address[]{\institution{}, ..., \cny{}}
 
-
+%\dedicated{}
+%\markboth{}{}
 
 \begin{abstract}
-Abstract 
+Abstract
 \end{abstract}
 
 \begin{keywords}
@@ -84,22 +89,20 @@ Abstract
 %\begin{proof}
 %\end{proof}
 
-
-%%  Acknowledgements %%
-%%%%%%%%%%%%%%%%%%%%%%
-%\begin{acknowledgement}%[title={Acknowledgments}]
-%\end{acknowledgement}
- 
-
 %% Appendices %%
 %%%%%%%%%%%%%%%%%%%%%%
 %\begin{appendix}
 %\section{Appendix section}
 %\end{appendix}
 
+%% Acknowledgements %%
+%%%%%%%%%%%%%%%%%%%%%%
+%\begin{acknowledgement}%[title={Acknowledgments}]
+%\end{acknowledgement}
+
+%% Funding %%
+%%%%%%%%%%%%%%%%%%%%%%
 %\begin{funding}
-%\gsponsor[id=,sponsor-id=]{}
-%\gnumber[refid=]{}
 %\end{funding}
 
 %% Bibliography %%
@@ -107,4 +110,4 @@ Abstract
 %\bibliographystyle{bib/vmsta-mathphys}
 %\bibliography{bib/paper}
 
-\end{document}
+\end{document} 
