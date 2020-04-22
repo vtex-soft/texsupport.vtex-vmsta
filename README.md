@@ -26,7 +26,9 @@ or
 
 Produce bbl:
 
-    `bibtex paper`
+```
+    bibtex paper
+```
 
 Bug reports:
 
