@@ -17,7 +17,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{vmsta}
-    [2018/04/04 v1.4.13 VMSTA Journal class]
+    [2021/09/08 v1.4.25 VMSTA Journal class]
 \def\fmt@name{vmsta}
 
 \RequirePackage{etoolbox}
@@ -29,10 +29,11 @@
   }
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+
 \ProcessOptions*
 
 \LoadClass{article}
-\RequirePackage{fixltx2e}
+%\RequirePackage{fixltx2e}
 \InputIfFileExists{vmsta.cfg}{}{}
 
 \def\@journal{Modern Stochastics: Theory and Applications}
@@ -41,6 +42,7 @@
 \def\@JOURNAL{MODERN STOCHASTICS: THEORY AND APPLICATIONS}
 \def\@jid{vmsta}
 \def\@JID{VMSTA}
+\let\short@journal\@jid
 
 \@ifundefined{doi@base}{\def\doi@base{https://doi.org/}}{}
 \def\print@doi{\href{\doi@base\@doi}{\doi@base\@doi}}
@@ -150,6 +152,19 @@
 \RequirePackage{rotating}
 \RequirePackage{graphicx}
 \RequirePackage{array}
+
+\ifdefined\HCode
+\else
+  \AtBeginDocument{%
+    \let\Mathop\mathop
+    \let\Mathord\mathord
+    \let\Mathrel\mathrel
+    \let\Mathbin\mathbin
+    \let\Mathopen\mathopen
+    \let\Mathclose\mathclose
+    \let\Mathpunct\mathpunct
+    }%
+\fi
 
 %% frontmatter
 \newlength\printhistorymargin
@@ -313,6 +328,25 @@
   \par
   }
 
+\def\validate@frontmatter@authors{%
+  \def\do##1{%
+    \setbox\@tempboxa=\hbox{%
+      \let\degs\@gobble
+      \let\prefix\@gobble
+      \let\inits\@gobble
+      \let\fnms\@gobble
+      \let\snm\@gobble
+      \let\suffix\@gobble
+      \let\roles\@gobble
+      \let\thanksref\@gobble
+      \let\thanks\@gobble
+      \let\thankstext\@gobble
+      \def\ead####1####{\global\stepcounter{countead}}%
+      \csname ##1\endcsname}%
+    }%
+  \expandafter\docsvlist\expandafter{\author@list}%
+  }
+
 \def\output@publishedonline{%
   \ifx\@empty\@publishedonline
   \else
@@ -334,7 +368,7 @@
   \let\printaug\relax
 \else
   \def\editorial@articletype@control{%
-    \let\output@frontmatter@authors\relax
+    \let\output@frontmatter@authors\validate@frontmatter@authors
     \let\output@publishedonline\relax
     }
   \def\other@articletype@control{%
@@ -349,6 +383,7 @@
 \def\title@afterskip{18pt}
 \def\subtitle@afterskip{18pt}
 \let\author@sep\relax
+\def\editorial@word{editorial}
 \long\def\MaketitleBox{%
   \def\baselinestretch{1}%
   \begin{center}%
@@ -364,27 +399,30 @@
       \vskip\subtitle@afterskip
     \fi
     \output@frontmatter@authors
-    \par
-    \def\do##1{%
-      \address@fmt{\csuse{##1@counter}}{\csuse{##1t@loc@notes}}{\csuse{##1}}%
-      }%
-    \expandafter\docsvlist\expandafter{\address@list}%
-    \par
-    %%\output@glob@notes
-    \edef\temp@macro{\the\email@author@toks}%
-    \ifx\temp@macro\@empty
+    \ifx\@articletype\editorial@word
     \else
+      \par
+      \def\do##1{%
+        \address@fmt{\csuse{##1@counter}}{\csuse{##1t@loc@notes}}{\csuse{##1}}%
+        }%
+      \expandafter\docsvlist\expandafter{\address@list}%
+      \par
+      %%\output@glob@notes
+      \edef\temp@macro{\the\email@author@toks}%
       \footnotesize
-      \vskip\baselineskip
       \normalfont
-      \bgroup
-        \the\email@author@toks
-      \egroup
+      \ifx\temp@macro\@empty
+      \else
+        \vskip\baselineskip
+        \bgroup
+          \the\email@author@toks
+        \egroup
+      \fi
+      \par\vskip1pc
+      \begin{printhistory}%
+        \history@fmt
+      \end{printhistory}%
     \fi
-    \par\vskip1pc
-    \begin{printhistory}%
-      \history@fmt
-    \end{printhistory}%
   \end{center}%
   \par
   \vskip11pt
@@ -479,6 +517,58 @@
   }
 \pagestyle{headings}
 
+\def\runtitle#1{\gdef\@runtitle{#1}}
+\def\@runtitle{}
+\def\runauthor#1{{\gdef\@runauthor{#1}}}
+\def\@runauthor{}
+\newif\ifrheads@set \rheads@setfalse
+\AtBeginDocument{%
+  \let\markboth@sav\markboth
+  \def\markboth#1#2{%
+    \settowidth\@tempdima{\footnotesize 000\quad {\itshape #1}}%
+    \ifdim\@tempdima>\textwidth\relax
+      \ClassError{vmsta}{Running title is too long, reassign it with \string\runauthor}{}%
+    \fi
+    \settowidth\@tempdima{\footnotesize {\itshape #2}\quad 000}%
+    \ifdim\@tempdima>\textwidth\relax
+      \ClassError{vmsta}{Running title is too long, reassign it with \string\runtitle}{}%
+    \fi
+    \markboth@sav{#1}{#2}%
+    \rheads@settrue
+    }%
+  }
+\def\runauthor@author@output#1{{%
+  \csuse{\short@journal @inits@#1@author}\ \csuse{\short@journal @snm@#1@author}%
+  \@ifundefined{\short@journal @inits@#1@author}{\csdef{\short@journal @inits@#1@author}{}}{}%
+  \csletcs{@temp}{\short@journal @inits@#1@author}%
+  \ifx\@temp\empty
+    \@latex@error{missing \string\inits\space for headline #1, use \string\inits{} or reassign it with \string\runauthor!.}{}%
+  \fi
+  }}
+\def\makerheads{%
+  \ifrheads@set\else
+    \if.\@runauthor.\relax
+      \def\@runauthor{%
+        \ifnum\value{author}<3\relax
+          \ifcase\value{author}%
+          \or
+            \runauthor@author@output{1}%
+          \or
+            \runauthor@author@output{1},
+            \runauthor@author@output{2}%
+          \fi
+        \else
+          \runauthor@author@output{1} \betal
+        \fi
+        }%
+    \fi
+    \if.\@runtitle.\relax
+      \def\@runtitle{\@title}%
+    \fi
+    \markboth{\@runauthor}{\@runtitle}%
+  \fi
+  }
+
 \renewcommand\section{\@startsection {section}{1}{\z@}%
            {-18\p@ \@plus -6\p@ \@minus -3\p@}%
            {9\p@ \@plus 6\p@ \@minus 3\p@}%
@@ -520,6 +610,13 @@
     \do@pdfmeta@authors
     \maketitle
     \check@articletype@pretitle@status
+    \ifnum\c@author=0\relax
+    \else
+        \ifnum\c@countead=0\relax
+            \ClassError{vmsta}{At least one email address is required!}{}%
+        \fi
+    \fi
+    \makerheads
   }
 \def\check@articletype@pretitle@status{%
   \ifx\@articletype\@empty
@@ -552,6 +649,22 @@
 \def\bibfont{\small}
 \def\bibsection{\section*{\refname}}
 
+\let\bibcite@sav\bibcite
+\long\def\bibcite#1#2{%
+  \bibcite@sav{#1}{#2}%
+  \def@bib@wdt#2%
+  }
+\def\bib@wdt{}
+\def\def@bib@wdt#1#2#3#4{\gdef\bib@wdt{#1}}
+\let\thebibliography@sav\thebibliography
+\def\thebibliography#1{%
+  \if.#1.\relax
+    \thebibliography@sav{\bib@wdt}%
+  \else
+    \thebibliography@sav{#1}%
+  \fi
+  }
+
 \def\MR@url{http://www.ams.org/mathscinet-getitem?mr=}
 \def\MR#1{\href{\MR@url#1}{MR#1}}
 
@@ -563,6 +676,9 @@
 
 \RequirePackage{xcolor}
 \definecolor{linkblue}{rgb}{0 0.4235 0.6392}
+\ifdefined\HCode\else
+  \RequirePackage{nameref}
+\fi
 \RequirePackage{hyperref}
 \hypersetup{%
   colorlinks=true,
@@ -605,6 +721,11 @@
     \vmsta@Sectionformat{#1\@nameuse{vmsta@section@level@\vmsta@section@numlevel @sep}}{#2}%
     }%
   }
+
+%% >>> index >>>
+\usepackage{index}
+\newindex{default}{idx}{ind}{Raw Index}
+%% <<< index <<<
 
 %% >>> startlocaldefs, endlocaldefs >>>
 \let\check@localdefs@status\relax
@@ -698,7 +819,9 @@
 \def\author@preskip{6\p@}
 \newif\if@firstauthor
 \newif\if@newelem
-\let\cmd@for@aut@elem\@gobblethree
+\def\cmd@for@aut@elem#1#2#3{% forms new command for inits and runauthor
+  \global\@namedef{\short@journal @#1@#2@author}{#3}%
+  }
 \let\mdforvkt\@gobblethree
 \let\orcid\@gobble
 
@@ -715,14 +838,19 @@
     \protect\protected@write\@auxout{}{\string\global\string\@namedef{prefix@\the\c@author @metadata}{##1}}%
     ##1%
     }%
-  \def\fnms##1{##1}%
+  \def\fnms##1{%
+    \cmd@for@aut@elem{fnms}{\the\c@author}{##1}%
+    ##1%
+    }%
   \def\inits##1{%
     \csdef{@inits}{##1}%
     \protect\protected@write\@auxout{}{\string\global\string\@namedef{inits@\the\c@author @metadata}{##1}}%
+    \cmd@for@aut@elem{inits}{\the\c@author}{##1}%
     }%
   \def\snm##1{%
     \csdef{@snm}{##1}%
     \protect\protected@write\@auxout{}{\string\global\string\@namedef{snm@\the\c@author @metadata}{##1}}%
+    \cmd@for@aut@elem{snm}{\the\c@author}{##1}%
     ##1%
     }%
   \def\suffix##1{##1}%
@@ -968,6 +1096,8 @@
 \newcounter{titlenote}
 \def\title@note@counter{titlenote}
 \def\subtitle@note@counter{titlenote}
+\def\relatedarticle@note@counter{titlenote}
+\def\correctionnote@note@counter{titlenote}
 \newcounter{authornote}
 \def\author@note@counter{authornote}
 \def\theauthornote{\arabic{authornote}}%
@@ -984,9 +1114,11 @@
 \def\thetitlenote{%
   \ifcase\c@titlenote\relax
   \or
-    \ding{73}%
+    \protect\ding{73}%
   \or
-    \ding{73}\ding{73}%
+    \protect\ding{73}\protect\ding{73}%
+  \or
+    \protect\ding{73}\protect\ding{73}\protect\ding{73}%
   \fi
   }%
 \let\thesubtitlenote\thetitlenote
@@ -1118,7 +1250,7 @@
     \setcounter{footnote}{\the\csname c@\current@counter\endcsname}%
     \def\thefootnote{\csname the\current@counter\endcsname}%
     \@@@Label{\thankstext@id}%
-    \thankstext@fmt{\thefootnote}{#2}%
+    \thankstext@fmt{\thefootnote}{\csname \thankstext@type @prehook\endcsname #2}%
     %}%
   }
 \define@key{addthanks}{id}{\def\addthanks@id{#1}}
@@ -1200,7 +1332,8 @@
 %% <<< title/subtitle setup <<<
 
 %% >>> email >>>
-\def\ead@href#1#2{\href{#1}{#2}}%
+\def\ead@mark{}
+\def\ead@href#1#2{\href{#1}{\ead@mark}}
 \def\email@author@fmt{%
   (%
   \ifx\@inits\@empty
@@ -1212,6 +1345,15 @@
   }
 \newtoks\email@author@toks
 %% blocked use of printead.sty in author environment
+\newcounter{countead}
+\def\ead@hook#1#2{%
+    \stepcounter{countead}%
+    \ifx.#2.
+        \gdef\ead@mark{???}%
+    \else
+        \gdef\ead@mark{#2}%
+    \fi
+    }
 \providecommand\ead[2][]{{%
 %% few necessary printead.sty definitions
   \define@key{ead}{label}{\def\ead@id{#1}}%
@@ -1232,6 +1374,7 @@
   \csedef{\ead@id @email@author}{\email@author@fmt}%
   \def\email@type{email}%
   \ifx\ead@type\email@type
+    \ead@hook{#1}{#2}%
     \add@xtok\email@author@toks{%
       \csuse{emailauthor@sep}%
       \ead@href{\ead@hrefprefix@email #2}{#2}~\hbox{\csuse{\ead@id @email@author}}%
