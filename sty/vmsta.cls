@@ -17,7 +17,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{vmsta}
-    [2021/09/08 v1.4.25 VMSTA Journal class]
+    [2022/08/09 v1.4.26 VMSTA Journal class]
 \def\fmt@name{vmsta}
 
 \RequirePackage{etoolbox}
@@ -34,6 +34,7 @@
 
 \LoadClass{article}
 %\RequirePackage{fixltx2e}
+\usepackage[T1]{fontenc}
 \InputIfFileExists{vmsta.cfg}{}{}
 
 \def\@journal{Modern Stochastics: Theory and Applications}
@@ -132,7 +133,6 @@
     \@endpefalse
   }%
 
-\usepackage[T1]{fontenc}
 \usepackage{textcomp}
 
 \RequirePackage{geometry}
