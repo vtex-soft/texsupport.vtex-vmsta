@@ -17,7 +17,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{vmsta}
-    [2022/08/09 v1.4.26 VMSTA Journal class]
+    [2022/12/18 v1.4.27 VMSTA Journal class]
 \def\fmt@name{vmsta}
 
 \RequirePackage{etoolbox}
@@ -1098,6 +1098,8 @@
 \def\subtitle@note@counter{titlenote}
 \def\relatedarticle@note@counter{titlenote}
 \def\correctionnote@note@counter{titlenote}
+\def\correctedarticle@note@counter{titlenote}
+\def\commentaryarticle@note@counter{titlenote}
 \newcounter{authornote}
 \def\author@note@counter{authornote}
 \def\theauthornote{\arabic{authornote}}%
