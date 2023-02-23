@@ -17,7 +17,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{vmsta}
-    [2022/12/18 v1.4.27 VMSTA Journal class]
+    [2023/02/23 v1.4.28 VMSTA Journal class]
 \def\fmt@name{vmsta}
 
 \RequirePackage{etoolbox}
@@ -665,7 +665,7 @@
   \fi
   }
 
-\def\MR@url{http://www.ams.org/mathscinet-getitem?mr=}
+\def\MR@url{https://mathscinet.ams.org/mathscinet-getitem?mr=}
 \def\MR#1{\href{\MR@url#1}{MR#1}}
 
 \let\betal@style\relax
@@ -769,7 +769,7 @@
 \def\set@proof@mr{%
   \define@key{bid}{mr}{%
     \@nameuse{startchkuriskip}%
-    \safe@href{http://www.ams.org/mathscinet-getitem?mr=##1}{MR##1}%
+    \safe@href{https://mathscinet.ams.org/mathscinet-getitem?mr=##1}{MR##1}%
     \@nameuse{endchkuriskip}%
     \ignorespaces
     }%
