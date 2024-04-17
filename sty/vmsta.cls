@@ -17,7 +17,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{vmsta}
-    [2023/02/23 v1.4.28 VMSTA Journal class]
+    [2024/04/17 v1.4.29 VMSTA Journal class]
 \def\fmt@name{vmsta}
 
 \RequirePackage{etoolbox}
@@ -229,6 +229,7 @@
     \def\PACS@name{PACS}%
     \def\JEL@name{JEL}%
     \def\MSC@MMX@name{MSC2010}%
+    \def\MSC@MMXX@name{MSC2020}%
     \ifx\@tempa\@empty
       \def\keywords@prefix{\textbf{Keywords}\enskip\enskip}%
     \else
@@ -242,10 +243,15 @@
             \def\keywords@prefix{\textbf{2010~MSC}\enskip\enskip}%
             \def\MSC@active@keywords{1}%
           \else
-            \def\keywords@prefix{\textbf{#1~MSC}\enskip\enskip}%
-            \def\msc@tempa{2010}%
-            \ifx\@tempa\msc@tempa
+            \ifx\@tempa\MSC@MMXX@name
+              \def\keywords@prefix{\textbf{2020~MSC}\enskip\enskip}%
               \def\MSC@active@keywords{1}%
+            \else
+              \def\keywords@prefix{\textbf{#1~MSC}\enskip\enskip}%
+              \def\msc@tempa{2010}%
+              \ifx\@tempa\msc@tempa
+                \def\MSC@active@keywords{1}%
+              \fi
             \fi
           \fi
         \fi
