@@ -12,6 +12,7 @@ Distributed files include:
 - `sty/vmsta2-dist.cls` - journal LaTeX class configuration file
 - `bib/vmsta2-mathphys.bst` - BibTeX style
 - `bib/biblio.bib` - BibTeX database sample
+- `_config.yml` - settings for GitHub pages, just ignore it
 
 ## Compile
 
@@ -19,7 +20,7 @@ Distributed files include:
 
 Minimal required version of LaTeX system is at least **2021**.
 
-LuaLaTeX is preferable engine, but pdfLaTeX works too.
+LuaLaTeX is preferable engine to compile, but pdfLaTeX works too.
 
 ### Command line
 
