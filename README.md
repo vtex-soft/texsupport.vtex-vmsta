@@ -1,21 +1,22 @@
-VMSTA journal document class.
+# VMSTA journal document class
 
 [https://www.vmsta.org/journal/VMSTA](https://www.vmsta.org/journal/VMSTA)
 
 Distributed files include:
 
 - `doc/vmstadoc.pdf` - author's instructions
-- `vmsta_sample.tex` - a sample article
+- `vmsta_sample.tex` - LaTeX source for sample article
 - `vmsta_sample.pdf` - a sample article
-- `vmsta_template.tex` - a template file
-- `sty/vmsta.cls` - journal class file
-- `bib/vmsta-mathphys.bst` - Bibtex style
-- `bib/biblio.bib` - Bibtex DB sample
+- `vmsta_template.tex` - LaTeX template file
+- `sty/vmsta2.cls` - journal LaTeX class file
+- `sty/vmsta2-dist.cls` - journal LaTeX class configuration file
+- `bib/vmsta2-mathphys.bst` - BibTeX style
+- `bib/biblio.bib` - BibTeX database sample
 
-Compile:
+## Compile
 
 ```
-    latex paper
+    lualatex paper
 ```
 
 or
@@ -30,11 +31,29 @@ Produce bbl:
     bibtex paper
 ```
 
-Bug reports:
+## Note on version 2
+
+-   Due to changes in the LaTeX kernel, VMSTA journal class was completely rewritten.
+-   Main text and math font changed to new TX fonts.
+-   Text box height adjusted and frame box added.
+-   Minor changes in TeX syntax.
+
+## Troubleshooting
+
+### Latin Modern add-ons
+
+-   Due to some bugs (or aesthetic oddities) in the new TX fonts, Latin Modern alternatives added.
+-   If You want turn them off use these document class options:
+    -   `nolmlargesymbols` - restore main brackets from TX fonts;
+    -   `nolmsymbols` - restore `\mathcal` from TX fonts;
+    -   `nolmoperators` - restore `\bar` from TX font;
+    -   `nolmaddons` - restore all the mentioned redefinitions from TX font.
+
+## Bug reports
 
 <p style="margin-left: 34pt;">
 Please submit bug report, issues or feature requests to
 <a href="mailto:latex-support@vtex.lt">latex-support@vtex.lt</a>.
 </p>
 
-VTeX UAB, 2014/10/02
+VTeX UAB, 2025/05/07

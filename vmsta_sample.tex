@@ -1,15 +1,15 @@
-\RequirePackage{etoolbox}
-\csdef{input@path}{%
- {sty/},% cls file
- {img/},% images
- {bib/}%  bibdata,bibstyle
+% definition for subdirs, do not change it!
+\expandafter\def\csname input@path\endcsname{%
+    {sty/},% cls,cfg file
+    {img/},% images
+    {bib/}%  bibdata,bibstyle
 }
 
-\documentclass[numbers,compress]{vmsta}
+\documentclass[numbers,compress]{vmsta2}
 
 \volume{0}
 \issue{0}
-\pubyear{2022}
+\pubyear{2025}
 \articletype{research-article}
 
 \newtheorem{thm}{Theorem}
@@ -32,21 +32,23 @@
 \pretitle{Research Article}
 
 \title{A sample document}
-\author[a]{\inits{F.}\fnms{First-Name1}~\snm{Surname-1}\thanksref{cor1}\ead[label=e1]{first@somewhere.com}\orcid{0000-0000-0000-0000}}
-\thankstext[type=corresp,id=cor1]{Corresponding author.}
+\runtitle{A sample running head title}
 
-\author[b]{\inits{S.}\fnms{First-Name2}~\snm{Surname-2}\thanksref{f1}\ead[label=e2]{second@somewhere.com}}
+\begin{aug}
+\author[a]{\inits{F.N.}\fnms{First-Name1}~\snm{Surname-1}\thanksref{cor1}\ead[label=e1]{first@somewhere.com}\orcid{0000-0000-0000-0000}}
+\thankstext[type=corresp,id=cor1]{Corresponding author.}
+\author[b]{\inits{S.N.}\fnms{First-Name2}~\snm{Surname-2}\thanksref{f1}\ead[label=e2]{second@somewhere.com}}
 \thankstext[id=f1]{Some remarks.}
 
 \address[a]{\institution{Institution of the First author}, \\
 Street 123, ZIP City, \cny{Country}}
-
 \address[b]{Address of the Second author\\
-usually few lines long}
+usually few lines long, \cny{Country}}
+\runauthor{F.N. Author, S.N. Author}
+\end{aug}
 
-\dedicated{Dedicated to}
+\dedicated{Dedicated to ...}
 
-\markboth{F. Author, S. Author}{A sample document}
 
 \begin{abstract}
 Omnes hanc ergo sequamur qua cum gratia mereamur vitam aeternam.
@@ -474,7 +476,7 @@ ut benefi-cam.  Dic nam esta pulchra ut luna electa, ut sol replet
 laetitia terras, caelos.
 \end{funding}
 
-\bibliographystyle{bib/vmsta-mathphys}
+\bibliographystyle{bib/vmsta2-mathphys}
 \bibliography{bib/biblio}
 
 

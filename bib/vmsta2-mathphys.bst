@@ -1,6 +1,6 @@
-%% This is file `vmsta-mathsphys.bst'
+%% This is file `vmsta2-mathsphys.bst'
 %%
-%% Please submit bugs or your comments to vtex@vtex.lt
+%% Please submit bugs or your comments to latex-support@vtex.lt
 %% Start subject with a "[VMSTA] bibtex: " + subject
 %%
 %% Sorting entries is done by name and year fields!
@@ -20,21 +20,21 @@
 % To validate options, need to write that reference (@settings) citeing key (f.e: \citation{foo}) 
 % to aux file. From tex file it can be done with \nocite{} command.
 %
-%	Examples:
-%		1) To make unsorted bibliography (bibs listed as cited)  
-%			a) write to bib file:
-%				@settings{label, options="unsort"}
-%			b) write in tex file \nocite{label}
-%		
-%		2) To make author-year bibliography
-%			a) write to bib file:
-%				@settings{label, options="nameyear"}
-%			b) write in tex file \nocite{label}
-%		
-%		3) To make alphanumerical unsorted bibliography (bibs listed as cited)  
-%			a) write to bib file:
-%				@settings{label, options="alpha,unsort"}
-%			b) write in tex file \nocite{label}
+% Examples:
+%   1) To make unsorted bibliography (bibs listed as cited)  
+%     a) write to bib file:
+%       @settings{label, options="unsort"}
+%     b) write in tex file \nocite{label}
+%   
+%   2) To make author-year bibliography
+%     a) write to bib file:
+%       @settings{label, options="nameyear"}
+%     b) write in tex file \nocite{label}
+%   
+%   3) To make alphanumerical unsorted bibliography (bibs listed as cited)  
+%     a) write to bib file:
+%       @settings{label, options="alpha,unsort"}
+%     b) write in tex file \nocite{label}
 % 
 % By default, style sorts bibliography. 
 
@@ -88,7 +88,7 @@ FUNCTION {init.state.consts}
   #5 'between.elements :=
 }
 
-STRINGS { s t  element}
+STRINGS { s t element}
 STRINGS { longest.label last.label list.string default.list}
 STRINGS { v l f j b temp.str}
 
@@ -191,18 +191,18 @@ FUNCTION {field.or.null}
 FUNCTION {sort.format.month}
 { 't :=
     t #1 #2 substring$ "01" =
-    t	#1 #1 substring$ "1" =
-    t	#2 #2 substring$ "" =
+    t #1 #1 substring$ "1" =
+    t #2 #2 substring$ "" =
     and or
     { "January" }
     { t #1 #2 substring$ "02" =
-      t	#1 #1 substring$ "2" =
-      t	#2 #2 substring$ "" =
+      t #1 #1 substring$ "2" =
+      t #2 #2 substring$ "" =
       and or
       { "February" }
       { t #1 #2 substring$ "03" =
          t #1 #1 substring$ "3" =
-         t	#2 #2 substring$ "" =
+         t  #2 #2 substring$ "" =
          and or
         { "March" }
         { t #1 #2 substring$ "04" =
@@ -264,7 +264,7 @@ FUNCTION {sort.format.month}
 
 INTEGERS {sk}
 FUNCTION {is.num}
-{	chr.to.int$
+{ chr.to.int$
    duplicate$ "0" chr.to.int$ < not
   swap$ "9" chr.to.int$ > not and
 }
@@ -274,7 +274,7 @@ FUNCTION {make.tag}
   duplicate$ empty$
     { pop$ "" }
     { bother #0 =
-      {	
+      { 
         t "volume" =
           {"\textbf{"  swap$ * "}" * }
           'skip$
@@ -301,7 +301,7 @@ FUNCTION {format.pub.address}
   and
     { address empty$
         'skip$
-        {	volume empty$
+        { volume empty$
             'insert.comma
             'new.sentence
           if$
@@ -311,14 +311,14 @@ FUNCTION {format.pub.address}
           or
             {"conflocation"}
             {"location"}
-           if$	
+           if$  
           make.tag output
         }
       if$
     }
     { 
       address empty$
-        {	publisher empty$
+        { publisher empty$
             {howpublished} 
             {springer.publisher} 
           if$ 
@@ -367,7 +367,7 @@ FUNCTION {space.after.dot}
       { l  " {q}. " * 'l :=
         t #4 global.max$ substring$ 't :=
       }
-       'skip$ 	
+       'skip$   
     if$
 
     t #1 #1 substring$ 's :=
@@ -446,7 +446,7 @@ FUNCTION {enbrace.dash}{
   element
 }
 
-FUNCTION {fix.name}{	
+FUNCTION {fix.name}{  
 
   enbrace.dash 's :=
   "" 'l :=
@@ -498,7 +498,7 @@ FUNCTION {format.author.editor}
    %% modifying name
   s fix.name 's :=
 
-  "" 't :=	
+  "" 't :=  
  
   #1 'nameptr :=
   s num.names$ 'numnames :=
@@ -515,16 +515,16 @@ FUNCTION {format.author.editor}
   if$
     
   { namesleft #0 > }
-  {	s nameptr "{vv}" 	  format.name$           "particle" mk.tag  'v := 
-    s nameptr "{ll}" 	  format.name$ fix.snm   "snm"      mk.tag  'l :=   
-    s nameptr "{f{.}.}" format.name$ fix.inits "inits"    mk.tag  'f := 
-     s nameptr "{jj}" 	  format.name$           "suffix"   mk.tag  'j := 
+  { 
+    s nameptr "{vv~}{ll}" format.name$ fix.snm   "snm"      mk.tag  'l :=   
+    s nameptr "{f{.}.}"   format.name$ fix.inits "inits"    mk.tag  'f := 
+    s nameptr "{jj}"      format.name$           "suffix"   mk.tag  'j := 
   
     
      namesleft #1 =
      tmp #1 = 
      and
-       {	b "bauthor" =
+       {  b "bauthor" =
          b "beditor" =
         or
           {"et al."}
@@ -543,29 +543,25 @@ FUNCTION {format.author.editor}
               {"\b" b * "{" *}
             if$
           }
-        if$			
+        if$     
 
-        v empty$
-          'skip$
-          {v * " " *}
-        if$
         
-           l empty$
+        l empty$
             'skip$
-          { l *} 		
-        if$			
+          { l *}    
+        if$     
   
-           f empty$
+        f empty$
           'skip$
-          {", " * f *} 		
+          {", " * f *}    
         if$
   
-           j empty$
+        j empty$
             'skip$
-          {" "  * j *} 		
+          {" "  * j *}    
         if$
 
-         b "nothing" =
+        b "nothing" =
            {""}
           {"}"}  
         if$
@@ -580,7 +576,7 @@ FUNCTION {format.author.editor}
     namesleft #1 >
     b "nothing" = not
     and
-      {	namesleft #2 =
+      { namesleft #2 =
          tmp #1 =
          and
           'skip$
@@ -601,7 +597,7 @@ FUNCTION {format.editors}
     'skip$
     {
       bother #0 =
-        {	author empty$
+        { author empty$
              {"editor"}
              {"nothing"}
             if$
@@ -632,7 +628,7 @@ FUNCTION {cite.author.editor}
   #2 >
     { pop$ " et~al." * }
     { #2 =
-        {	s #2 "{vv~}{ll}{ jj}{ f}" format.name$ "others" =
+        { s #2 "{vv~}{ll}{ jj}{ f}" format.name$ "others" =
             { " et~al."  * }
             { " and " * s #2 "{vv~}{ll}" format.name$ * }
            if$
@@ -651,20 +647,20 @@ FUNCTION {check.auth.edit.org}
         organization empty$
           {""}
           {organization}
-        if$		
+        if$   
       }
       {editor cite.author.editor}
-    if$		
+    if$   
   }
   {author cite.author.editor}
- if$	
+ if$  
 }
 
 FUNCTION {check.year}
-{	year empty$
+{ year empty$
     {""}
     {year extra.label *}
-  if$	
+  if$ 
 }
 
 INTEGERS { multiresult char.num k int}
@@ -705,7 +701,7 @@ FUNCTION {is.in.list}{
           #0 'int :=
         }
         'skip$
-      if$	
+      if$ 
       int #1 + 'int :=
     }
   while$
@@ -725,7 +721,7 @@ FUNCTION {is.in.list}{
   j 's :=
   f 't :=  
   
-  return		
+  return    
 }
 
 INTEGERS {bibitem.count}
@@ -816,7 +812,7 @@ FUNCTION {upercase.first.letters}{
   #1 'count :=
   list.string  'v :=
   "" 'b :=
-  title.lowerwords 'list.string :=	
+  title.lowerwords 'list.string :=  
 
   t text.length$ 'slen :=
   
@@ -828,7 +824,7 @@ FUNCTION {upercase.first.letters}{
           
           % if word not in title.lowerwords - uppercase first letter
           b is.in.list not
-            {	b "l" change.case$ b =
+            { b "l" change.case$ b =
                 { b "u" change.case$ "t" change.case$ 'b := }
                 'skip$
               if$
@@ -844,13 +840,13 @@ FUNCTION {upercase.first.letters}{
           #0 'int :=
         }
         'skip$
-      if$	
+      if$ 
       int #1 + 'int :=
       count #1 + 'count :=
-%			"count=" count int.to.str$ * " slen=" * slen int.to.str$ * top$
+%     "count=" count int.to.str$ * " slen=" * slen int.to.str$ * top$
     }
   while$
-  v 'list.string :=	
+  v 'list.string := 
   % last word is "t" and need to check it too 
   s t
   t "l" change.case$ t =
@@ -874,7 +870,7 @@ FUNCTION {format.title}
       type$ "mastersthesis" =
       or or or or or or
          {"t" change.case$}
-         {	type$ "unpublished" =
+         {  type$ "unpublished" =
            type$ "misc" =
            or
              'skip$
@@ -888,7 +884,7 @@ FUNCTION {format.title}
 
 
 FUNCTION {note.presented}
-{	note #1 #9 substring$ "presented" = 
+{ note #1 #9 substring$ "presented" = 
    note #1 #9 substring$ "Presented" = 
   or
 }
@@ -915,14 +911,14 @@ FUNCTION {n.filter}
 FUNCTION {byear}
 { duplicate$ empty$
     { pop$ "" }
-    {	't :=
+    { 't :=
        t text.length$ 'sk :=
       #5 sk =
-        {	t #1 #4 substring$ 's :=
+        { t #1 #4 substring$ 's :=
           t #5 #1 substring$ 'longest.label :=
-          longest.label is.num not	
+          longest.label is.num not  
             {s "year" make.tag  
-              "nameyear" is.in.list	
+              "nameyear" is.in.list 
                 {longest.label * }
                 'skip$
               if$
@@ -930,8 +926,8 @@ FUNCTION {byear}
             {t "year" make.tag }
           if$
         }
-        {	t "year" make.tag 
-          "nameyear" is.in.list						
+        { t "year" make.tag 
+          "nameyear" is.in.list           
             {extra.label *}
             'skip$
           if$
@@ -1047,7 +1043,7 @@ FUNCTION {format.edition}
       "" 'f :=    
       edition "l" change.case$ 's :=
          "1" s =
-         "first" s =  			
+         "first" s =        
          or
            {
              "1" 'v :=
@@ -1055,7 +1051,7 @@ FUNCTION {format.edition}
            }
            {
              "2" s =
-             "second" s =  			
+             "second" s =       
              or
                {
                  "2" 'v :=
@@ -1063,7 +1059,7 @@ FUNCTION {format.edition}
                }
                {
                  "3" s =
-                 "third" s =  			
+                 "third" s =        
                  or
                    {
                      "3" 'v :=
@@ -1071,7 +1067,7 @@ FUNCTION {format.edition}
                    }
                    {
                      "4" s =
-                     "fourth" s =  			
+                     "fourth" s =       
                      or
                        {
                          "4" 'v :=
@@ -1079,7 +1075,7 @@ FUNCTION {format.edition}
                        }
                        {
                          "5" s =
-                         "fifth" s =  			
+                         "fifth" s =        
                          or
                            {
                              "5" 'v :=
@@ -1087,7 +1083,7 @@ FUNCTION {format.edition}
                            }
                            {
                              "6" s =
-                             "sixth" s =  			
+                             "sixth" s =        
                              or
                                {
                                  "6" 'v :=
@@ -1095,7 +1091,7 @@ FUNCTION {format.edition}
                                }
                                {
                                  "7" s =
-                                 "seventh" s =  			
+                                 "seventh" s =        
                                  or
                                    {
                                      "7" 'v :=
@@ -1103,7 +1099,7 @@ FUNCTION {format.edition}
                                    }
                                    {
                                      "8" s =
-                                     "eighth" s =  			
+                                     "eighth" s =       
                                      or
                                        {
                                          "8" 'v :=
@@ -1111,7 +1107,7 @@ FUNCTION {format.edition}
                                        }
                                        {
                                          "9" s =
-                                         "nineth" s =  			
+                                         "nineth" s =       
                                          or
                                            {
                                              "9" 'v :=
@@ -1120,32 +1116,32 @@ FUNCTION {format.edition}
                                            {
                                                edition "t" change.case$ 'f :=
                                            }
-                                         if$	 
+                                         if$   
                                        }
-                                     if$	 
+                                     if$   
                                    }
-                                 if$	 
+                                 if$   
                                }
-                             if$	 
+                             if$   
                            }
-                         if$	 
+                         if$   
                        }
-                     if$	 
+                     if$   
                    }
-                 if$	 
+                 if$   
                }
-             if$	 
+             if$   
            }
-         if$	 
-        #0 bother =		
-           {	f "" =
-               { v l *	'f :=}
+         if$   
+        #0 bother =   
+           {  f "" =
+               { v l *  'f :=}
                'skip$
              if$
            }
-           {	f "" =
-               { "\bedition{" v * "}" * l *	'f :=}
-               { "\bedition{" f * "}" *	'f :=}
+           {  f "" =
+               { "\bedition{" v * "}" * l * 'f :=}
+               { "\bedition{" f * "}" * 'f :=}
              if$
            }
        if$
@@ -1156,7 +1152,7 @@ FUNCTION {format.edition}
 FUNCTION {format.isbn}
 { isbn empty$
     { "" }
-    { isbn "isbn" make.tag}	
+    { isbn "isbn" make.tag} 
   if$
 }
 
@@ -1190,7 +1186,7 @@ FUNCTION {multi.page.check}
              {
              t #2 global.max$ substring$ 't :=
              }
-           if$	
+           if$  
         }
         { l  s * 'l :=
           t #2 global.max$ substring$ 't := 
@@ -1210,7 +1206,7 @@ FUNCTION {clearpage}
       t #1 #1 substring$ 's :=
       s is.num not
         'skip$
-        {	l  s * 'l := 	}
+        { l  s * 'l :=  }
       if$
       t #2 global.max$ substring$ 't :=
     }
@@ -1237,9 +1233,9 @@ FUNCTION {do.pages}
                 if$
                 "" 't := 
              }
-           if$	
+           if$  
         }
-        {	j  s * 'j :=
+        { j  s * 'j :=
             t #2 global.max$ substring$ 't := 
         }
       if$
@@ -1265,13 +1261,13 @@ FUNCTION {format.pages}
              {"pp.~"}
             if$ 
           } 
-         if$	
+         if$  
           pages do.pages *
         }
         {type$ "article" =
           {""}
           {"p.~"} 
-         if$	
+         if$  
           pages clearpage "fpage" make.tag *
         }
 
@@ -1304,30 +1300,24 @@ FUNCTION {format.url}
 { url empty$
     'skip$
     { type$ "article" =
-        'skip$	
-        {	#0 bother =
-            { "\url{" }
-             { "\burl{" }
-          if$
-          url replace.tilde * "}" * 
-          output	
-        }
+        'skip$  
+        {  "\url{" url replace.tilde * "}" *  output}
       if$
        
        urldate empty$
            'skip$
          { "Accessed " urldate * output }
        if$
-    }	
+    } 
   if$
 }
 
 FUNCTION {format.month.output}{
   publisher empty$
-   	'skip$
-   	{
-  	 	insert.comma
- 		  format.month output
+    'skip$
+    {
+      insert.comma
+      format.month output
     }
   if$
 }
@@ -1343,9 +1333,9 @@ FUNCTION {format.confdate.output}{
         {" " year * *} 
       if$
 
-  	 	"confdate" make.tag output
-  	}
-  	'skip$
+      "confdate" make.tag output
+    }
+    'skip$
   if$
 }
 
@@ -1387,49 +1377,38 @@ FUNCTION {publisher.month.pages}{
   if$
 }
 
-function{process.doi}{
-  doi 't :=
-    "" 'b :=
-    #1 'int :=
-% 	"doi =" t * top$
-
-  t text.length$ 'slen :=
-  
-    {int slen = not }
-    {t int #3 substring$ "10." =
+FUNCTION {fix.doi.doimain}{
+  't := % content
+  t text.length$ #10 >
+    {
+      t #1 #10 substring$ "http://dx." = 
         {
-          t int #1 - #1 substring$ 'b :=
-          b "" = 
-            {"a" 'b :=} % if b is empty need to set a letter
-            'skip$
-          if$
-            
-          b is.num not
-            {
-               t int slen int - #1 + substring$ 't :=
-              slen #1 - 'int := 
-            }
-            'skip$
-          if$
-          
+          "https://" t #11 global.max$ substring$ * 't :=
         }
-        'skip$
-      if$	
-      int #1 + 'int :=
+        {
+          t #1 #4 substring$ "http" = 
+            'skip$
+            { "https://doi.org/" t * 't := }
+          if$
+        }
+      if$ 
     }
-  while$
-  t
+    'skip$
+  if$ 
+  t 
 }
 
+
+% Ensuring "https://doi.org/" at begin of doi
 FUNCTION {format.doi}
 { doi empty$
-  {""}
-  { 
-     "nodoi" is.in.list
-      {""}
-      {"doi:\doiurl{" process.doi * "}" * }
-     if$
-  }
+    {""}
+    {
+      "nodoi" is.in.list
+        {""}
+        { "\doiurl{" doi fix.doi.doimain * "}" * }
+      if$
+    }
   if$
 }
 
@@ -1517,7 +1496,7 @@ FUNCTION {format.inpres}
 }
 
 FUNCTION {bcomment.note}
-{	note empty$
+{ note empty$
     'skip$
      {note format.inpres "comment" make.tag output}
    if$
@@ -1542,28 +1521,28 @@ FUNCTION {format.thesis.type}
 }
 
 FUNCTION {format.chapter.and.note}
-{	note empty$ chapter empty$ organization empty$ and and
+{ note empty$ chapter empty$ organization empty$ and and
     'skip$
-    {	chapter empty$
+    { chapter empty$
       "notnumber" last.label =
       or
         {organization empty$
-            {	note "comment" make.tag output }
-            {	note empty$
+            { note "comment" make.tag output }
+            { note empty$
                 { organization "comment" make.tag output }
                 { organization ". " * note * "comment" make.tag output }
              if$
             }
          if$
         }
-        {	note empty$
-            {	"Chap. "  chapter * "comment" make.tag output}
-            {	type empty$
+        { note empty$
+            { "Chap. "  chapter * "comment" make.tag output}
+            { type empty$
                 { "Chap. " }
                 { type "t" change.case$ "Section" = 
-                     {	"Sect. " }
+                     {  "Sect. " }
                     { "Chap. " }
-                  if$	
+                  if$ 
                 }
               if$
               chapter * ". " * note * "comment" make.tag  output
@@ -1572,15 +1551,15 @@ FUNCTION {format.chapter.and.note}
         }
       if$
     }
-  if$		
+  if$   
 }
 
 FUNCTION {item.end}
-{	chapter empty$
+{ chapter empty$
   type$ "unpublished" = not 
   type$ "misc" = not 
-  and	and
-    {	new.sentence
+  and and
+    { new.sentence
       format.doi  output
     }
     'skip$
@@ -1589,25 +1568,25 @@ FUNCTION {item.end}
   type$ "unpublished" =
   type$ "misc" =
   or
-    {	note empty$
+    { note empty$
         'skip$
         {note.presented
             'skip$
             {new.sentence note output}
-         if$		
+         if$    
         }
-      if$	
+      if$ 
       format.date.parens output
     }
     { new.sentence
       type$ "proceedings" =
-        {	author empty$ editor empty$ and
+        { author empty$ editor empty$ and
             'bcomment.note
              'format.chapter.and.note 
-           if$	
+           if$  
         }
          'format.chapter.and.note 
-       if$		
+       if$    
     }
   if$
   list.string  'v :=
@@ -1630,9 +1609,9 @@ FUNCTION {item.end}
   chapter empty$
   type$ "unpublished" = not 
   type$ "misc" = not 
-  and	and
+  and and
     'skip$
-    {	new.sentence
+    { new.sentence
       format.doi  output
     }
   if$
@@ -1647,8 +1626,8 @@ FUNCTION {item.end}
   fin.entry
 }
 FUNCTION {insert.element}
-{	#0 bother =
-    {	element "{botherref}" * write$ newline$}
+{ #0 bother =
+    { element "{botherref}" * write$ newline$}
     {
       type$ "article" =
         {element "{barticle}" * write$ newline$}
@@ -1664,10 +1643,10 @@ FUNCTION {insert.element}
       if$
       
       type$ "inbook" =
-        {	"notnumber" last.label =
+        { "notnumber" last.label =
             {element "{bchapter}" * write$ newline$}
             {element "{bbook}" * write$ newline$}
-          if$	
+          if$ 
         }
         'skip$
       if$
@@ -1703,7 +1682,7 @@ FUNCTION {article}
   or
   year empty$ 
    or 
-  %	above tagging rule means:
+  % above tagging rule means:
   % nead: (volume & (pages or number) ) or (doi [without volume, pages and number])
     volume empty$ not  
     pages empty$ not bnumber empty$ not or
@@ -1715,8 +1694,8 @@ FUNCTION {article}
     not
   or
     {#0 'bother :=} 
-     {#1 'bother :=}				 		  
-  if$	
+     {#1 'bother :=}              
+  if$ 
   begin.element
   author empty$
     { editor empty$
@@ -1775,7 +1754,7 @@ FUNCTION {book}
         {#1 'bother :=}
       if$
     } 
-  if$	
+  if$ 
   begin.element
   author empty$
     { editor empty$
@@ -1793,7 +1772,7 @@ FUNCTION {book}
       format.edition output
       format.month.output
     }
-    {	edition empty$
+    { edition empty$
         'skip$
         'insert.comma
       if$
@@ -1819,7 +1798,7 @@ FUNCTION {booklet}
    or or or
     {#0 'bother :=} 
     {#1 'bother :=} 
-  if$	
+  if$ 
 
   begin.element
   author empty$
@@ -1870,13 +1849,13 @@ FUNCTION {inbook}
         {#1 'bother :=}
       if$
     } 
-  if$	
+  if$ 
 
   chapter empty$
-    {	"" 'last.label :=}
-      {	chapter string.to.integer empty$ author empty$ not and
-          {	"notnumber" 'last.label :=}
-          {	"" 'last.label :=}
+    { "" 'last.label :=}
+      { chapter string.to.integer empty$ author empty$ not and
+          { "notnumber" 'last.label :=}
+          { "" 'last.label :=}
         if$
       }
     if$
@@ -1887,7 +1866,7 @@ FUNCTION {inbook}
     {format.authors stupid.colon}
   if$ 
   "notnumber" last.label =
-    {	chapter "ctitle" make.tag output
+    { chapter "ctitle" make.tag output
       add.period$
     }
     'skip$
@@ -1939,12 +1918,12 @@ FUNCTION {incollection}
         {#1 'bother :=}
       if$
     } 
-  if$	
+  if$ 
   begin.element
   author empty$
-    'skip$	
+    'skip$  
     {format.authors stupid.colon}
-  if$		 
+  if$    
 
   format.title "ctitle" make.tag "title" output.check  
   title empty$
@@ -1962,7 +1941,7 @@ FUNCTION {incollection}
      {
         edition empty$
           'skip$
-          {	insert.comma
+          { insert.comma
             format.edition output
           } 
         if$
@@ -1988,7 +1967,7 @@ FUNCTION {inproceedings}
    or or
     {#0 'bother :=} 
     {#1 'bother :=}
-  if$	
+  if$ 
   begin.element
   author empty$
   'skip$
@@ -2012,32 +1991,38 @@ FUNCTION {inproceedings}
   format.volume output
   publisher.month.pages
   
-  publisher empty$
-  editor empty$
-  pages empty$ and
-  and
   year empty$ 
-  and
-   	'skip$
-   	{format.date 
-   	  month empty$ 
-   	    'parens 
-   	    {pages empty$
-   	      'skip$ 
-   	      'parens 
-   	      if$
-   	    }
-  	  if$
-   	  output
-   	}
-  if$  	
+    'skip$
+    {
+      format.date
+      
+      publisher empty$
+      editor empty$
+      pages empty$ 
+      and
+      and
+        'skip$
+        {
+          month empty$ 
+            'parens 
+            {pages empty$
+              'skip$ 
+              'parens 
+              if$
+            }
+          if$
+        }    
+      if$
+      output
+    }
+  if$   
   end.element
 }
 
 FUNCTION {conference} { inproceedings }
 
 FUNCTION {manual}
-{	output.bibitem
+{ output.bibitem
   author empty$
   organization empty$ 
   title empty$ 
@@ -2046,7 +2031,7 @@ FUNCTION {manual}
    or or or or
     {#0 'bother :=} 
     {#1 'bother :=} 
-  if$	
+  if$ 
   begin.element
 
   author empty$
@@ -2101,7 +2086,7 @@ FUNCTION {phdthesis}
   type$ "mastersthesis"  =
     {"Master's thesis" format.thesis.type output.nonnull}
     {"PhD thesis" format.thesis.type output.nonnull}
-  if$		
+  if$   
   school empty$
     'skip$
      'insert.comma 
@@ -2135,7 +2120,7 @@ FUNCTION {proceedings}
         {#1 'bother :=}
       if$
     } 
-  if$	
+  if$ 
 
   begin.element
   author empty$
@@ -2163,7 +2148,7 @@ FUNCTION {proceedings}
 }
 
 FUNCTION {techreport}
-{	output.bibitem
+{ output.bibitem
   #0 'bother :=
   begin.element
   author empty$
@@ -2199,7 +2184,7 @@ FUNCTION {unpublished}
   format.title "title" output.check
   note empty$
     'skip$
-    {	note.presented 
+    { note.presented 
         {note output}
         'skip$
       if$
@@ -2459,7 +2444,7 @@ FUNCTION {sort.format.names}
            nameptr #1 + 'nameptr :=
           namesleft #1 - 'namesleft :=
         }
-      if$  	
+      if$   
     }
   while$
 }
@@ -2640,37 +2625,6 @@ ITERATE {forward.pass}
 
 REVERSE {reverse.pass}
 
-FUNCTION {write.preambule}
-{   "\begin{thebibliography}{" number.label int.to.str$ * "}" * write$ newline$
-  "% BibTex style file: vmsta-mathphys.bst, 2014-06-25" write$ newline$
-  "\ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi" write$ newline$
-  "\ifx \binits  \undefined \def \binits#1{#1}\fi" write$ newline$
-  "\ifx \bauthor  \undefined \def \bauthor#1{#1}\fi" write$ newline$
-  "\ifx \batitle  \undefined \def \batitle#1{#1}\fi" write$ newline$
-  "\ifx \bjtitle  \undefined \def \bjtitle#1{#1}\fi" write$ newline$ 
-  "\ifx \bvolume  \undefined \def \bvolume#1{\textbf{#1}}\fi" write$ newline$
-  "\ifx \byear  \undefined \def \byear#1{#1}\fi" write$ newline$
-  "\ifx \bissue  \undefined \def \bissue#1{#1}\fi" write$ newline$
-  "\ifx \bfpage  \undefined \def \bfpage#1{#1}\fi" write$ newline$
-  "\ifx \blpage  \undefined \def \blpage #1{#1}\fi" write$ newline$
-  "\ifx \burl  \undefined \def \burl#1{\textsf{#1}}\fi" write$ newline$
-  "\ifx \doiurl  \undefined \def \doiurl#1{\textsf{#1}}\fi" write$ newline$
-  "\ifx \betal  \undefined \def \betal{\textit{et al.}}\fi" write$ newline$
-  "\ifx \binstitute  \undefined \def \binstitute#1{#1}\fi" write$ newline$
-  "\ifx \binstitutionaled  \undefined \def \binstitutionaled#1{#1}\fi" write$ newline$
-  "\ifx \bctitle  \undefined \def \bctitle#1{#1}\fi" write$ newline$
-  "\ifx \beditor  \undefined \def \beditor#1{#1}\fi" write$ newline$
-  "\ifx \bpublisher  \undefined \def \bpublisher#1{#1}\fi" write$ newline$
-  "\ifx \bbtitle  \undefined \def \bbtitle#1{#1}\fi" write$ newline$
-  "\ifx \bedition  \undefined \def \bedition#1{#1}\fi" write$ newline$
-  "\ifx \bseriesno  \undefined \def \bseriesno#1{#1}\fi" write$ newline$
-  "\ifx \blocation  \undefined \def \blocation#1{#1}\fi" write$ newline$
-  "\ifx \bsertitle  \undefined \def \bsertitle#1{#1}\fi" write$ newline$
-  "\ifx \bsnm \undefined \def \bsnm#1{#1}\fi" write$ newline$
-  "\ifx \bsuffix \undefined \def \bsuffix#1{#1}\fi" write$ newline$
-  "\ifx \bparticle \undefined \def \bparticle#1{#1}\fi" write$ newline$
-  "\ifx \barticle \undefined \def \barticle#1{#1}\fi" write$ newline$
-}
 
 
 FUNCTION {begin.bib}
@@ -2678,19 +2632,8 @@ FUNCTION {begin.bib}
     'skip$
     { preamble$ write$ newline$ }
   if$
-  write.preambule
-  "\ifx \bconfdate \undefined \def \bconfdate #1{#1} \fi" write$ newline$
-  "\ifx \botherref \undefined \def \botherref #1{#1} \fi" write$ newline$
-  "\ifx \url \undefined \def \url#1{\textsf{#1}} \fi" write$ newline$
-  "\ifx \bchapter \undefined \def \bchapter#1{#1} \fi" write$ newline$
-  "\ifx \bbook \undefined \def \bbook#1{#1} \fi" write$ newline$
-  "\ifx \bcomment \undefined \def \bcomment#1{#1} \fi" write$ newline$
-  "\ifx \oauthor \undefined \def \oauthor#1{#1} \fi" write$ newline$
-  "\ifx \citeauthoryear \undefined \def \citeauthoryear#1{#1} \fi" write$ newline$
-  "\ifx \endbibitem  \undefined \def \endbibitem {}\fi" write$ newline$
-  "\ifx \bconflocation  \undefined \def \bconflocation#1{#1} \fi" write$ newline$
-  "\ifx \arxivurl  \undefined \def \arxivurl#1{\textsf{#1}} \fi" write$ newline$
-  "\csname PreBibitemsHook\endcsname" write$ newline$
+  "\begin{thebibliography}{" number.label int.to.str$ * "}" * write$ newline$
+  "% BibTex style file: vmsta2-mathphys.bst, 2025-03-13" write$ newline$
 }
 EXECUTE {begin.bib}
 
