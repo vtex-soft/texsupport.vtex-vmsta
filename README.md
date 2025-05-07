@@ -15,6 +15,14 @@ Distributed files include:
 
 ## Compile
 
+### Requirements
+
+Minimal required version of LaTeX system is at least **2021**.
+
+LuaLaTeX is preferable engine, but pdfLaTeX works too.
+
+### Command line
+
 ```
     lualatex paper
 ```
@@ -33,10 +41,10 @@ Produce bbl:
 
 ## Note on version 2
 
--   Due to changes in the LaTeX kernel, VMSTA journal class was completely rewritten.
+-   Due to heavy recent years changes in the LaTeX kernel, VMSTA journal class was updated.
 -   Main text and math font changed to new TX fonts.
 -   Text box height adjusted and frame box added.
--   Minor changes in TeX syntax.
+-   Couple minor changes in LaTeX template syntax.
 
 ## Troubleshooting
 

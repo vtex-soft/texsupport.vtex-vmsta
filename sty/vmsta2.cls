@@ -15,8 +15,8 @@
 %% License, as described in lppl.txt in the base LaTeX distribution.
 %% Either version 1.3 or (at your option) any later version.
 %%
-\NeedsTeXFormat{LaTeX2e}[2020/10/01]
-\ProvidesClass{vmsta2}[2025/04/30 v2.0.8 VMSTA Journal class (ST)]
+\NeedsTeXFormat{LaTeX2e}[2021/06/01]
+\ProvidesClass{vmsta2}[2025/04/30 v2.0.9 VMSTA Journal class (ST)]
 % 
 \ExplSyntaxOn
 \cs_gset_eq:NN \tl@if@blank@@nTF \tl_if_blank:nTF
@@ -72,7 +72,7 @@
 \def\@jid{vmsta} \let\short@journal\@jid
 \def\@JID{VMSTA}
 \def\@publisher{VTeX}
-\edef\@publisheraddress{Mokslininkų g. 2A, 08412 Vilnius, Lithuania}
+\def\@publisheraddress{Mokslininkų g. 2A, 08412 Vilnius, Lithuania}
 \def\@issn{2351-6046}
 \def\@eissn{2351-6054}
 %% preamble
