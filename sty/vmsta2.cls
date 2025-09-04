@@ -16,7 +16,7 @@
 %% Either version 1.3 or (at your option) any later version.
 %%
 \NeedsTeXFormat{LaTeX2e}[2021/06/01]
-\ProvidesClass{vmsta2}[2025/04/30 v2.0.9 VMSTA Journal class (ST)]
+\ProvidesClass{vmsta2}[2025/09/03 v2.1.2 VMSTA Journal class (ST)]
 % 
 \ExplSyntaxOn
 \cs_gset_eq:NN \tl@if@blank@@nTF \tl_if_blank:nTF
@@ -38,6 +38,14 @@
         \edef\reserved@a{\global\protect#1{\the#1#2}}%
         \reserved@a
     \endgroup
+    }
+%
+\newif\if@pdfua \@pdfuatrue
+\DeclareOption{pdfua}{\@pdfuatrue}
+\DeclareOption{nopdfua}{\@pdfuafalse}
+\DeclareOption{notags}{%
+    \def\NOPDFUA{}%
+    \AtEndOfClass{\csname vmsta@check@notags@status\endcsname}%
     }
 %
 \DeclareOption{nolmlargesymbols}{\xdef\vmsta@nolmlargesymbols{1}}
@@ -169,6 +177,9 @@
 \RequirePackage{pifont}
 %
 \RequirePackage{amsmath}
+\ifdefined\noaccents@
+    \noaccents@
+\fi
 \def\th@remark{%
     \let\@upn\relax
     \thm@headfont{\itshape}%
@@ -960,54 +971,13 @@
         \par
     }
 %% funding
-\def\@afterbox{%
-    \everypar{%
-        \if@nobreak
-            \@nobreakfalse
-            \clubpenalty\@M
-            \if@afterindent 
-            \else
-                {\setbox\z@\lastbox}%
-                \everypar{}%
-            \fi
-        \else
-            \clubpenalty\@clubpenalty
-            {\setbox\z@\lastbox}%
-            \everypar{}%
-        \fi
-        }%
+\def\funding@section{%
+    \@startsection{section}{1}{\z@}%
+        {-\baselineskip}{\baselineskip}{\bfseries}%
     }
 \DeclareDocumentEnvironment{funding}{O{Funding}}%
-    {%
-        \def\funding@name{#1}%
-        \if@noskipsec 
-            \leavevmode
-        \fi
-        \par
-        \@afterindenttrue
-        \if@nobreak
-            \everypar{}%
-        \else
-            \addpenalty\@secpenalty \addvspace\baselineskip
-        \fi
-        \@nobreakfalse \global\@noskipsectrue
-        \everypar{%
-            \if@noskipsec
-                \global\@noskipsecfalse
-                {\setbox\z@\lastbox}%
-                \clubpenalty\@M
-                {\bfseries\funding@name\\\\}%
-            \else
-                \clubpenalty\@clubpenalty \everypar{}%
-            \fi
-            }%
-        \ignorespaces
-    }%
-    {%
-        \par
-        \vskip\baselineskip
-        \aftergroup\@afterbox
-    }
+    {\def\funding@name{#1}\funding@section*{\funding@name}}%
+    {\par}
 \kv@set@family@handler{gsponsor}{\global\@namedef{gsponsor@#1}{#2}}
 \let\gsponsor@fmt\@firstofone
 \DeclareDocumentCommand\gsponsor{om}{%
