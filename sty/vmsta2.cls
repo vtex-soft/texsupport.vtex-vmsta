@@ -16,7 +16,7 @@
 %% Either version 1.3 or (at your option) any later version.
 %%
 \NeedsTeXFormat{LaTeX2e}[2021/06/01]
-\ProvidesClass{vmsta2}[2025/09/03 v2.1.2 VMSTA Journal class (ST)]
+\ProvidesClass{vmsta2}[2025/10/01 v2.1.4 VMSTA Journal class (ST)]
 % 
 \ExplSyntaxOn
 \cs_gset_eq:NN \tl@if@blank@@nTF \tl_if_blank:nTF
@@ -644,6 +644,32 @@
     \normalize@prevdepth
     \vskip\title@afterskip
     }
+\NewHook{vmsta2/subtitle/start}
+\NewHook{vmsta2/subtitle/stop}
+\kv@set@family@handler{subtitle}{\global\@namedef{subtitle@#1}{#2}}
+\kvsetkeys{subtitle}{%
+    size={\large\bfseries\mathversion{bold}},%
+    beforeskip=3.5\p@,%
+    afterskip={20\p@},%
+    }
+\def\pdfmeta@subtitle{}
+\DeclareDocumentCommand\subtitle{om}{%
+    \IfNoValueF{#1}{\kvsetkeys{subtitle}{#1}}%
+    \write@pdfinfo{\pdfmeta@subtitle}{#2}%
+    \gdef\@subtitle{#2}%
+    \vskip\subtitle@beforeskip
+    \bgroup
+        \let\note@sep\set@note@sep
+        \subtitle@size
+        \quitvmode
+        \UseHook{vmsta2/subtitle/start}%
+        #2\if@not@x@empty{\the\t@loc@notes}{\textsuperscript{{\normalfont\the\t@loc@notes}}}%
+        \UseHook{vmsta2/subtitle/stop}%
+        \par
+    \egroup
+    \normalize@prevdepth
+    \vskip\subtitle@afterskip
+    }
 %% aug 
 \newcounter{aug}
 \DeclareDocumentEnvironment{aug}{}%
@@ -1041,6 +1067,26 @@
 \usepackage{index}
 \let\@check@eq\vmsta@sv@check@eq
 \newindex{default}{idx}{ind}{Raw Index}
+%
+%% esm environment for xml
+\def\esm@titlesep{}
+\def\esm{%
+  \@ifnextchar[%
+    \@esm
+    {\@esm[]}%
+  }
+\def\@esm[#1]{%
+  \bgroup
+  \par
+  \def\esmtitle##1{%
+    \section*{##1}%
+    \esm@titlesep}%
+  \def\esmdescription{\@firstofone}%
+  \def\esmfiletype{\@gobble}%
+  \def\esmfilename{\@gobble}%
+  }
+\def\endesm{\egroup} 
+%
 %% final settings
 \ifdefined\HCode
     \bgroup
