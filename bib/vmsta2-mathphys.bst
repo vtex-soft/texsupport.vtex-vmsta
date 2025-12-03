@@ -1406,7 +1406,7 @@ FUNCTION {format.doi}
     {
       "nodoi" is.in.list
         {""}
-        { "\doiurl{" doi fix.doi.doimain * "}" * }
+        { "\bid{doi={" doi fix.doi.doimain * "}}" * }
       if$
     }
   if$
@@ -2633,7 +2633,7 @@ FUNCTION {begin.bib}
     { preamble$ write$ newline$ }
   if$
   "\begin{thebibliography}{" number.label int.to.str$ * "}" * write$ newline$
-  "% BibTex style file: vmsta2-mathphys.bst, 2025-03-13" write$ newline$
+  "% BibTex style file: vmsta2-mathphys.bst, 2025-12-03" write$ newline$
 }
 EXECUTE {begin.bib}
 
