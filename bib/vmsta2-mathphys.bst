@@ -1379,22 +1379,35 @@ FUNCTION {publisher.month.pages}{
 
 FUNCTION {fix.doi.doimain}{
   't := % content
-  t text.length$ #10 >
+  
+  %% Modify DOI field:
+  % 1. remove "doi.org/" from doi
+  % 2. "http://dx."  replace with "https://"
+  % 3. prepend "https://doi.org/" if DOI doesn't start with "http"
+  
+  t #1 #8 substring$ "doi.org/" = 
     {
-      t #1 #10 substring$ "http://dx." = 
+       t #9 global.max$ substring$ 't :=
+    }
+    {
+      t text.length$ #10 >
         {
-          "https://" t #11 global.max$ substring$ * 't :=
+          t #1 #10 substring$ "http://dx." = 
+            {
+              "https://" t #11 global.max$ substring$ * 't :=
+            }
+            {
+              t #1 #4 substring$ "http" = 
+                'skip$
+                { "https://doi.org/" t * 't := }
+              if$
+            }
+          if$ 
         }
-        {
-          t #1 #4 substring$ "http" = 
-            'skip$
-            { "https://doi.org/" t * 't := }
-          if$
-        }
+        'skip$
       if$ 
     }
-    'skip$
-  if$ 
+    if$
   t 
 }
 
@@ -2633,7 +2646,7 @@ FUNCTION {begin.bib}
     { preamble$ write$ newline$ }
   if$
   "\begin{thebibliography}{" number.label int.to.str$ * "}" * write$ newline$
-  "% BibTex style file: vmsta2-mathphys.bst, 2025-12-03" write$ newline$
+  "% BibTex style file: vmsta2-mathphys.bst, 2025-12-04" write$ newline$
 }
 EXECUTE {begin.bib}
 
