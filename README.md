@@ -9,7 +9,7 @@ Distributed files include:
 - `vmsta_sample.pdf` - a sample article
 - `vmsta_template.tex` - LaTeX template file
 - `sty/vmsta2.cls` - journal LaTeX class file
-- `sty/vmsta2-dist.cls` - journal LaTeX class configuration file
+- `sty/vmsta2-dist.cfg` - journal LaTeX class configuration file
 - `bib/vmsta2-mathphys.bst` - BibTeX style
 - `bib/biblio.bib` - BibTeX database sample
 - `_config.yml` - settings for GitHub pages, just ignore it
