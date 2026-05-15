@@ -16,7 +16,7 @@
 %% Either version 1.3 or (at your option) any later version.
 %%
 \NeedsTeXFormat{LaTeX2e}[2021/06/01]
-\ProvidesClass{vmsta2}[2025/10/01 v2.1.4 VMSTA Journal class (ST)]
+\ProvidesClass{vmsta2}[2026/01/08 v2.1.11 VMSTA Journal class (ST)]
 % 
 \ExplSyntaxOn
 \cs_gset_eq:NN \tl@if@blank@@nTF \tl_if_blank:nTF
@@ -929,36 +929,88 @@
 \def\keywords@class@JEL@settings{%
     \def\keywords@class@name{JEL~classification}%
     }
-\@namedef{keywords@class@MSC2010@settings}{%
-    \def\keywords@class@name{2010 MSC}%
-    \def\keywords@item@fmt##1{%
-        \href{https://www.ams.org/msc/msc2010.html?s=##1}{##1}%
-        }%
-    }
-\@namedef{keywords@class@MSC2020@settings}{%
-    \def\keywords@class@name{2020 MSC}%
-    \def\keywords@item@fmt##1{%
-        \href{https://www.ams.org/msc/msc2020.html?s=##1}{##1}%
-        }%
-    }
+\ifnum\jobstart@date@info>20260428\relax
+    \@namedef{keywords@class@MSC@settings}{%
+        \def\keywords@class@name{2020 MSC}%
+        \def\keywords@item@fmt##1{%
+            \href{https://www.ams.org/msc/msc2020.html?s=##1}{##1}%
+            }%
+        }
+    \@namedef{keywords@class@MSC2010@settings}{%
+        \ClassError{vmsta2}{Please use [class=MSC] instead of [class=MSC2010]}{}%
+        }
+    \@namedef{keywords@class@MSC2020@settings}{%
+        \ClassError{vmsta2}{Please use [class=MSC] instead of [class=MSC2020]}{}%
+        }
+\else
+    \@namedef{keywords@class@MSC2010@settings}{%
+        \def\keywords@class@name{2010 MSC}%
+        \def\keywords@item@fmt##1{%
+            \href{https://www.ams.org/msc/msc2010.html?s=##1}{##1}%
+            }%
+        }
+    \@namedef{keywords@class@MSC2020@settings}{%
+        \def\keywords@class@name{2020 MSC}%
+        \def\keywords@item@fmt##1{%
+            \href{https://www.ams.org/msc/msc2020.html?s=##1}{##1}%
+            }%
+        }
+\fi
 \def\keywords@item@pdfmeta#1{%
     \if@not@x@empty{\the\pdfmeta@kwd@toks}{\g@addto@hook\pdfmeta@kwd@toks{, }}%
     \g@addto@hook\pdfmeta@kwd@toks{#1}%
     }
 \def\keywords@class@name@fmt#1{\textbf{#1}}
-\DeclareDocumentCommand\kwd{om}{%
-    \IfValueTF{#1}{#1\init@kwd@sep}{\kwd@sep}%
-    \UseHook{vmsta2/kwd/start}%
-    \keywords@item@pdfmeta{#2}%
-    \keywords@item@fmt{#2}\ignorespaces%
-    \UseHook{vmsta2/kwd/stop}%
-    }
+\newif\if@start@kwdgroup\@start@kwdgroupfalse
+\ifnum\jobstart@date@info>20260428\relax
+    \DeclareDocumentCommand\kwd{om}{%
+        \IfValueTF{#1}{\ClassError{vmsta2}{Don't use square brackets '[...]' in \string\kwd!}{}}{}%
+        \if@start@kwdgroup
+            \unskip\
+            \init@kwd@sep
+            \@start@kwdgroupfalse
+        \else
+            \kwd@sep
+        \fi
+        \UseHook{vmsta2/kwd/start}%
+        \keywords@item@pdfmeta{#2}%
+        \keywords@item@fmt{#2}\ignorespaces%
+        \UseHook{vmsta2/kwd/stop}%
+        }
+    \DeclareDocumentCommand\kwdgroup{om}{%
+        \@start@kwdgrouptrue
+        \ifstrequal{#1}{type=primary}{\kwdgroup@primary}{}%
+        \ifstrequal{#1}{type=secondary}{\kwdgroup@secondary}{}%
+        #2%
+        }
+    \def\kwdgroup@primary{Primary}
+    \def\kwdgroup@secondary{\unskip; Secondary}
+\else
+    \DeclareDocumentCommand\kwd{om}{%
+        \IfValueTF{#1}{#1\init@kwd@sep}{\kwd@sep}%
+        \UseHook{vmsta2/kwd/start}%
+        \keywords@item@pdfmeta{#2}%
+        \keywords@item@fmt{#2}\ignorespaces%
+        \UseHook{vmsta2/kwd/stop}%
+        }
+\fi
 \kv@set@family@handler{keywords}{\global\@namedef{keywords@key@#1}{#2}}
 \newtoks\keywords@data \keywords@data={}
 \DeclareDocumentEnvironment{keywords}{o+b}%
     {%
         \g@addto@hook\keywords@data{%
-            \IfValueTF{#1}{\kvsetkeys{keywords}{class=#1}}{\kvsetkeys{keywords}{class={Keywords}}}%
+            \ifnum\jobstart@date@info>20260428\relax
+                \IfValueTF{#1}{%
+                    \in@{class}{#1}%
+                    \ifin@
+                        \kvsetkeys{keywords}{#1}%
+                    \else
+                        \ClassError{vmsta2}{Invalid keyword format, please use '[class=...]'}{}%
+                    \fi}%
+                    {\kvsetkeys{keywords}{class={Keywords}}}%
+            \else
+                \IfValueTF{#1}{\kvsetkeys{keywords}{class=#1}}{\kvsetkeys{keywords}{class={Keywords}}}%
+            \fi
             \def\init@kwd@sep{\def\kwd@sep{\unskip, }\let\init@kwd@sep\@empty}%
             \let\kwd@sep\init@kwd@sep
             \let\keywords@item@fmt\@firstofone
@@ -996,6 +1048,12 @@
     }{%
         \par
     }
+\ifnum\jobstart@date@info>20260428\relax
+    \let\keyword\keywords
+    \let\endkeyword\endkeywords
+    \let\keywords\@undefined
+    \let\endkeywords\@undefined
+\fi
 %% funding
 \def\funding@section{%
     \@startsection{section}{1}{\z@}%
