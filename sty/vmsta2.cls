@@ -16,7 +16,7 @@
 %% Either version 1.3 or (at your option) any later version.
 %%
 \NeedsTeXFormat{LaTeX2e}[2021/06/01]
-\ProvidesClass{vmsta2}[2026/01/08 v2.1.11 VMSTA Journal class (ST)]
+\ProvidesClass{vmsta2}[2026/10/13 v2.1.12 VMSTA Journal class (ST)]
 % 
 \ExplSyntaxOn
 \cs_gset_eq:NN \tl@if@blank@@nTF \tl_if_blank:nTF
@@ -255,6 +255,7 @@
 %% pagestyles
 \def\ps@copyright{%
     \def\@oddhead{%
+        \csuse{vtxml@suppress@output}%
         \parbox[t]{\textwidth}{%
             \bgroup
                 \normalfont\fontsize{8}{10}\selectfont
@@ -267,6 +268,7 @@
         }%
     \let\@evenhead\@oddhead
     \def\@oddfoot{%
+        \csuse{vtxml@suppress@output}%
         \copyright@line\credit@line
         }%
     \let\@evenfoot\@oddfoot
@@ -457,6 +459,7 @@
             \par
             \if@history \history@fmt \fi
         \egroup
+        \csuse{vtxml@frontmatter@end}%
         \frontmatter@addons
         \ifdefined\@dedicated \dedicated@fmt \fi
         \vskip11\p@
@@ -595,6 +598,8 @@
     \freefootnotetext[\thefootnote]{#2}%
     \ignorespaces
     }
+\@definecounter{correctedarticle}
+\@definecounter{commentaryarticle}
 \kv@set@family@handler{thankstext}{\global\@namedef{thankstext@#1}{#2}}
 \def\thankstext[#1]#2{%
     \kvsetkeys{thankstext}{id={},mark={},type={footnote},#1}%
@@ -602,7 +607,7 @@
         {\refstepcounter{footnote}}%
         {\refstepcounter{\thankstext@type}}%
     \label{\thankstext@id-thanks}%
-    \freefootnotetext[\csname the\thankstext@type\endcsname]{#2}%
+    \freefootnotetext[\csname the\thankstext@type\endcsname]{\csname \thankstext@type @prehook\endcsname #2}%
     \ignorespaces
     \UseHook{vmsta2/thanks/end}%
     }
@@ -864,15 +869,21 @@
 \def\received@prefix{Received:~}
 \def\revised@prefix{Revised:~}
 \def\accepted@prefix{Accepted:~}
-\def\publishedonline@prefix{Published~online:~}
 \DeclareDocumentCommand\received{m}
     {\if@not@empty{#1}{\gdef\@received{#1}\global\@historytrue}}%
 \DeclareDocumentCommand\revised{m}
     {\if@not@empty{#1}{\gdef\@revised{#1}\global\@historytrue}}%
 \DeclareDocumentCommand\accepted{m}
     {\if@not@empty{#1}{\gdef\@accepted{#1}\global\@historytrue}}%
-\DeclareDocumentCommand\publishedonline{m}
-    {\if@not@empty{#1}{\gdef\@publishedonline{#1}\global\@historytrue}}%
+\ifnum\jobstart@date@info>22220005\relax
+    \def\pubonline@prefix{Published~online:~}
+    \DeclareDocumentCommand\pubonline{m}
+        {\if@not@empty{#1}{\gdef\@pubonline{#1}\global\@historytrue}}%
+\else
+    \def\publishedonline@prefix{Published~online:~}
+    \DeclareDocumentCommand\publishedonline{m}
+        {\if@not@empty{#1}{\gdef\@publishedonline{#1}\global\@historytrue}}%
+\fi
 \def\history@item@sep{\def\history@item@sep{, \allowbreak}}
 \def\history@item@fmt#1{%
     \ifcsname @#1\endcsname
@@ -889,7 +900,11 @@
         \history@item@fmt{received}%
         \history@item@fmt{revised}%
         \history@item@fmt{accepted}%
-        \history@item@fmt{publishedonline}%
+        \ifnum\jobstart@date@info>22220005\relax
+            \history@item@fmt{pubonline}%
+        \else
+            \history@item@fmt{publishedonline}%
+        \fi
         \history@postfix
     \egroup
     }
@@ -1044,8 +1059,10 @@
 \DeclareDocumentEnvironment{acknowledgement}{O{title={Acknowledgement}}}%
     {%
         \kvsetkeys{acknowledgement}{#1}%
+        \csuse{vtxml@ack@start}%
         \section*{\acknowledgement@title}%
     }{%
+        \csuse{vtxml@ack@stop}%
         \par
     }
 \ifnum\jobstart@date@info>20260428\relax
@@ -1060,8 +1077,8 @@
         {-\baselineskip}{\baselineskip}{\bfseries}%
     }
 \DeclareDocumentEnvironment{funding}{O{Funding}}%
-    {\def\funding@name{#1}\funding@section*{\funding@name}}%
-    {\par}
+    {\def\funding@name{#1}\csuse{vtxml@funding@start}\funding@section*{\funding@name}}%
+    {\csuse{vtxml@funding@stop}\par}
 \kv@set@family@handler{gsponsor}{\global\@namedef{gsponsor@#1}{#2}}
 \let\gsponsor@fmt\@firstofone
 \DeclareDocumentCommand\gsponsor{om}{%
@@ -1142,8 +1159,9 @@
   \def\esmdescription{\@firstofone}%
   \def\esmfiletype{\@gobble}%
   \def\esmfilename{\@gobble}%
+  \csuse{vtxml@esm@start}%
   }
-\def\endesm{\egroup} 
+\def\endesm{\csuse{vtxml@esm@stop}\egroup}
 %
 %% final settings
 \ifdefined\HCode
